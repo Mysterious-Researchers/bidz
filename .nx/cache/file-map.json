@@ -1,0 +1,133 @@
+{
+  "version": "6.0",
+  "nxVersion": "18.0.1",
+  "deps": {
+    "nx": "^18.0.1"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {
+      "api": [
+        {
+          "file": "apps/api/.eslintrc.js",
+          "hash": "7461846271827386206"
+        },
+        {
+          "file": "apps/api/.prettierrc",
+          "hash": "4808572120966128913"
+        },
+        {
+          "file": "apps/api/README.md",
+          "hash": "8286378509751487236"
+        },
+        {
+          "file": "apps/api/nest-cli.json",
+          "hash": "789240945379598733"
+        },
+        {
+          "file": "apps/api/package.json",
+          "hash": "8200977143823342415",
+          "deps": [
+            "npm:@nestjs/common",
+            "npm:@nestjs/core",
+            "npm:@nestjs/platform-express",
+            "npm:reflect-metadata",
+            "npm:rxjs",
+            "npm:@nestjs/cli",
+            "npm:@nestjs/schematics",
+            "npm:@nestjs/testing",
+            "npm:@types/express",
+            "npm:@types/jest",
+            "npm:@types/node",
+            "npm:@types/supertest",
+            "npm:@typescript-eslint/eslint-plugin",
+            "npm:@typescript-eslint/parser",
+            "npm:eslint",
+            "npm:eslint-config-prettier",
+            "npm:eslint-plugin-prettier",
+            "npm:jest",
+            "npm:prettier",
+            "npm:source-map-support",
+            "npm:supertest",
+            "npm:ts-jest",
+            "npm:ts-loader",
+            "npm:ts-node",
+            "npm:tsconfig-paths",
+            "npm:typescript"
+          ]
+        },
+        {
+          "file": "apps/api/src/app.controller.spec.ts",
+          "hash": "2727664763654384995"
+        },
+        {
+          "file": "apps/api/src/app.controller.ts",
+          "hash": "4552329938751326480"
+        },
+        {
+          "file": "apps/api/src/app.module.ts",
+          "hash": "11673476679848632172"
+        },
+        {
+          "file": "apps/api/src/app.service.ts",
+          "hash": "16892833931858030153"
+        },
+        {
+          "file": "apps/api/src/main.ts",
+          "hash": "16836780892212170881"
+        },
+        {
+          "file": "apps/api/test/app.e2e-spec.ts",
+          "hash": "15142680097789702029"
+        },
+        {
+          "file": "apps/api/test/jest-e2e.json",
+          "hash": "7570273541430074424"
+        },
+        {
+          "file": "apps/api/tsconfig.build.json",
+          "hash": "276845246908739715"
+        },
+        {
+          "file": "apps/api/tsconfig.json",
+          "hash": "11076536136503805564"
+        }
+      ]
+    },
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "11091884865853158211"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "7273322286073003598"
+      },
+      {
+        "file": "README.md",
+        "hash": "14052420647363938000"
+      },
+      {
+        "file": "apps/web/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "libs/types/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "package.json",
+        "hash": "15467967553726305268"
+      },
+      {
+        "file": "pnpm-lock.yaml",
+        "hash": "18364985106260448360"
+      },
+      {
+        "file": "pnpm-workspace.yaml",
+        "hash": "4682124154651265967"
+      }
+    ]
+  }
+}
