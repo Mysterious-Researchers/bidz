@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { type TAuctionInput, auctionSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PhotoInputField } from "@/app/(application)/auction/create/_componets/photo-input";
 
 interface LabelWrapperProps {
   label: string;
@@ -100,8 +101,17 @@ const AuctionForm = ({
           />
         </InputWrapper>
       </section>
-      <section className="rounded-[32px] bg-white px-[80px] py-[40px]">
-        <Button type="submit">{actionName}</Button>
+      <section className="flex flex-col gap-6 rounded-[32px] bg-white px-[80px] py-[40px]">
+        <div>
+          <h2 className="text-2xl font-bold">Photos</h2>
+          <p>The first photo is going to be tha main photo</p>
+        </div>
+
+        <PhotoInputField />
+
+        <Button type="submit" className="self-start">
+          {actionName}
+        </Button>
       </section>
     </form>
   );
