@@ -5,8 +5,9 @@ import { useForm, Controller } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
-import { type TCreateAuctionInput } from "@/lib/schemas";
+import { type TAuctionInput, auctionSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface LabelWrapperProps {
   label: string;
@@ -34,7 +35,7 @@ const AuctionForm = ({
   defaultValues,
   actionName,
 }: {
-  defaultValues?: TCreateAuctionInput;
+  defaultValues?: TAuctionInput;
   actionName: string;
 }) => {
   const {
@@ -43,18 +44,18 @@ const AuctionForm = ({
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ defaultValues });
+  } = useForm({ defaultValues, resolver: zodResolver(auctionSchema) });
 
   const [date, setDate] = React.useState<Date | undefined>(
     defaultValues?.endsAt,
   );
 
-  const onSubmit = (data: TCreateAuctionInput) => console.log(data);
+  const onSubmit = (data: TAuctionInput) => console.log(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <section className="mb-[20px] rounded-[32px] bg-white px-[80px] py-[40px]">
-        <InputWrapper label="Auction title">
+      <section className="mb-[20px] flex flex-col gap-4 rounded-[32px] bg-white px-[80px] py-[40px]">
+        <InputWrapper label="Auction title" error={errors.title?.message}>
           <Input
             {...register("title")}
             className="bg-slate-50"
@@ -62,14 +63,28 @@ const AuctionForm = ({
           />
         </InputWrapper>
 
-        <InputWrapper label="Minimal price (in usd)">
+        <InputWrapper
+          label="Minimal price (in usd)"
+          error={errors.price?.message}
+        >
           <Input
             {...register("price")}
             className="bg-slate-50"
             placeholder="Specify minimal price of the thing"
           />
         </InputWrapper>
-        <InputWrapper label="Auction end date">
+        <InputWrapper
+          label="Auction description"
+          error={errors.description?.message}
+        >
+          <Textarea
+            {...register("description")}
+            className="bg-slate-50"
+            placeholder="Describe your product"
+          />
+        </InputWrapper>
+
+        <InputWrapper label="Auction end date" error={errors.endsAt?.message}>
           <Controller
             name={"endsAt"}
             control={control}
@@ -83,9 +98,6 @@ const AuctionForm = ({
               />
             )}
           />
-        </InputWrapper>
-        <InputWrapper label="Auction description">
-          <Textarea {...register("description")} className="bg-slate-50" />
         </InputWrapper>
       </section>
       <section className="rounded-[32px] bg-white px-[80px] py-[40px]">

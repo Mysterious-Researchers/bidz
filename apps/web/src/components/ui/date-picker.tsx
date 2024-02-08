@@ -20,13 +20,10 @@ export function DatePicker({
   date?: Date;
   onSelect: (date: Date) => void;
 }) {
-  const [popoverOpen, setPopoverOpen] = React.useState(false);
-
   return (
-    <Popover open={popoverOpen}>
+    <Popover>
       <PopoverTrigger asChild>
         <Button
-          onClick={() => setPopoverOpen((prev) => !prev)}
           variant={"outline"}
           className={cn(
             "w-[280px] justify-start bg-slate-50 text-left font-normal",
@@ -37,12 +34,16 @@ export function DatePicker({
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent
+        className="w-auto p-0"
+        onAuxClick={() => {
+          console.log("outside click");
+        }}
+      >
         <Calendar
           mode="single"
           selected={date}
           onSelect={(date) => {
-            setPopoverOpen(false);
             onSelect(date!);
           }}
           initialFocus

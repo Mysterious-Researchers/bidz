@@ -1,13 +1,13 @@
 import z from "zod";
 
-const createAuctionSchema = z.object({
+const auctionSchema = z.object({
   title: z.string(),
   description: z.string(),
-  price: z.coerce.number(),
+  price: z.coerce.number({ description: "Input a price of your item" }).gt(0),
   endsAt: z.coerce.date(),
 });
 
-type TCreateAuctionInput = z.infer<typeof createAuctionSchema>;
+type TAuctionInput = z.infer<typeof auctionSchema>;
 
-export { createAuctionSchema };
-export type { TCreateAuctionInput };
+export { auctionSchema };
+export type { TAuctionInput };
