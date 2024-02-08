@@ -9,9 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // "underline-active": "border-b-3 border-black rounded-none",
-        underline:
-          "border-b-2 border-transparent border-b-blue-600 rounded-none",
+        blue: "bg-blue-600 text-white hover:bg-blue-700",
+        "underline-active":
+          "border-b-2 border-transparent border-b-blue-600 rounded-none hover:border-b-violet-700 rounded-none",
+        underline: "border-b-2 border-transparent rounded-none",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",

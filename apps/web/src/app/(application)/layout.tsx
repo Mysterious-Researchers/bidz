@@ -1,10 +1,12 @@
-import { Header } from "@/app/(application)/_components/header";
-import { Footer } from "@/app/(application)/_components/footer";
+import { Header } from "@/app/(application)/_components/navigation/header";
+import { Footer } from "@/app/(application)/_components/navigation/footer";
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      {children}
+      <main className="flex min-h-[calc(100vh-480px)] w-full flex-1 flex-col bg-slate-50">
+        {children}
+      </main>
       <Footer />
     </>
   );
