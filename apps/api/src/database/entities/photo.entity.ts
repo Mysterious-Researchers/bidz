@@ -1,6 +1,7 @@
 import {
   BelongsTo,
   Column,
+  DataType,
   ForeignKey,
   Model,
   Table,
@@ -23,7 +24,9 @@ export class Photo extends Model {
   index: number;
 
   @ForeignKey(() => Auction)
-  @Column
+  @Column({
+    type: DataType.UUID,
+  })
   auctionId: string;
 
   @BelongsTo(() => Auction)

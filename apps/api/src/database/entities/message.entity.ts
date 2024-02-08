@@ -22,14 +22,18 @@ export class Message extends Model {
   id: string;
 
   @ForeignKey(() => Auction)
-  @Column
+  @Column({
+    type: DataType.UUID,
+  })
   auctionId: string;
 
   @BelongsTo(() => Auction)
   auction: Auction;
 
   @ForeignKey(() => User)
-  @Column
+  @Column({
+    type: DataType.UUID,
+  })
   userId: string;
 
   @BelongsTo(() => User)

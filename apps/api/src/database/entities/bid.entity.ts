@@ -22,14 +22,18 @@ export class Bid extends Model {
   id: string;
 
   @ForeignKey(() => User)
-  @Column
+  @Column({
+    type: DataType.UUID,
+  })
   userId: string;
 
   @BelongsTo(() => User)
   user: User;
 
   @ForeignKey(() => Auction)
-  @Column
+  @Column({
+    type: DataType.UUID,
+  })
   auctionId: string;
 
   @BelongsTo(() => Auction)
