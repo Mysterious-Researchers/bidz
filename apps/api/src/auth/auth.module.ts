@@ -1,4 +1,4 @@
-import { AuthService } from './auth.servise';
+import { AuthService } from './auth.serviсe';
 import { userProviders } from '../database/providers/user.providers';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
