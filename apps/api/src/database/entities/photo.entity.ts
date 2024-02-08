@@ -4,6 +4,7 @@ import {
   DataType,
   ForeignKey,
   Model,
+  PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { Auction } from './auction.entity';
@@ -12,9 +13,9 @@ import { Auction } from './auction.entity';
   tableName: 'photos',
 })
 export class Photo extends Model {
+  @PrimaryKey
   @Column({
     unique: true,
-    allowNull: false,
   })
   link: string;
 
