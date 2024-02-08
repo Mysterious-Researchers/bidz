@@ -8,6 +8,7 @@ import {
 } from 'sequelize-typescript';
 import { Bid } from './bid.entity';
 import { Message } from './message.entity';
+import { Auction } from './auction.entity';
 
 const Statuses = ['APPROVED', 'PENDING', 'DECLINED'];
 
@@ -58,4 +59,7 @@ export class User extends Model {
 
   @HasMany(() => Message)
   messages: Message[];
+
+  @HasMany(() => Auction)
+  auctions: Auction[];
 }

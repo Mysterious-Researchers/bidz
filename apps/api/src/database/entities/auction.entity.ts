@@ -1,14 +1,16 @@
 import {
+  BelongsTo,
   Column,
-  DataType,
+  DataType, ForeignKey,
   HasMany,
   Model,
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import { Bid } from './bid.entity';
-import {Photo} from "./photo.entity";
-import {Message} from "./message.entity";
+import { Photo } from './photo.entity';
+import { Message } from './message.entity';
+import { User } from './user.entity';
 
 @Table({
   tableName: 'auctions',
@@ -25,6 +27,15 @@ export class Auction extends Model {
     allowNull: false,
   })
   name: string;
+
+  @ForeignKey(() => User)
+  @Column({
+    type: DataType.UUID,
+  })
+  userId: string;
+
+  @BelongsTo(() => User)
+  user: User;
 
   @Column({
     type: DataType.FLOAT,

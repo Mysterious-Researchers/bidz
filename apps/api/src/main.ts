@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './api/app.module';
 import * as process from 'process';
 
 const port = process.env.PORT ?? 3000;
