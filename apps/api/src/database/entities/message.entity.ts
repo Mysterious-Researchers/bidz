@@ -7,26 +7,19 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
-import { User } from './user.entity';
 import { Auction } from './auction.entity';
+import { User } from './user.entity';
 
 @Table({
-  tableName: 'bids',
+  tableName: 'messages',
 })
-export class Bid extends Model {
+export class Message extends Model {
   @PrimaryKey
   @Column({
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
   id: string;
-
-  @ForeignKey(() => User)
-  @Column
-  userId: string;
-
-  @BelongsTo(() => User)
-  user: User;
 
   @ForeignKey(() => Auction)
   @Column
@@ -35,9 +28,13 @@ export class Bid extends Model {
   @BelongsTo(() => Auction)
   auction: Auction;
 
-  @Column({
-    type: DataType.FLOAT,
-    allowNull: false,
-  })
-  value: number;
+  @ForeignKey(() => User)
+  @Column
+  userId: string;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @Column
+  text: string;
 }

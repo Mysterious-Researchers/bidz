@@ -3,9 +3,11 @@ import {
   Column,
   Model,
   DataType,
-  PrimaryKey, HasMany,
+  PrimaryKey,
+  HasMany,
 } from 'sequelize-typescript';
-import {Bid} from "./bid.entity";
+import { Bid } from './bid.entity';
+import { Message } from './message.entity';
 
 const Statuses = ['APPROVED', 'PENDING', 'DECLINED'];
 
@@ -53,4 +55,7 @@ export class User extends Model {
 
   @HasMany(() => Bid)
   bids: Bid[];
+
+  @HasMany(() => Message)
+  messages: Message[];
 }
