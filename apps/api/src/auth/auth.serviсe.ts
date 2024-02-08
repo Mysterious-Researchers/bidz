@@ -14,10 +14,11 @@ export class AuthService {
   }
 
   async create(body: AuthDto) {
-    return this.userModel.create({
-      nickName: body.nickName,
+    const user = await this.userModel.create({
+      nickname: body.nickname,
       password: body.password,
       email: body.email,
+      status: 'APPROVED',
     });
   }
 }
