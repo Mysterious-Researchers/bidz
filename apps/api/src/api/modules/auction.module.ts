@@ -8,15 +8,19 @@ import { BidModule } from './bid.module';
 import { MapperModule } from './mapper.module';
 import { AuctionGateway } from '../gateways/auction.gateway';
 import { auctionProviders } from '../../database/providers/auction.provider';
+import { FileService } from '../../config/file.service';
+import { photoProviders } from '../../database/providers/photo.provider';
 
 @Module({
   controllers: [AuctionController],
   providers: [
     AuctionGateway,
     AuctionService,
+    FileService,
     ...messageProviders,
     ...bidProviders,
     ...auctionProviders,
+    ...photoProviders,
   ],
   exports: [AuctionService],
   imports: [MessageModule, BidModule, MapperModule],
