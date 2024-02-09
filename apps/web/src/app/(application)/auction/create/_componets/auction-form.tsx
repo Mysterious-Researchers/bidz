@@ -9,7 +9,6 @@ import { type TAuctionInput, auctionSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PhotoInputField } from "@/app/(application)/auction/create/_componets/photo-input";
-
 interface LabelWrapperProps {
   label: string;
   children: React.ReactNode;
@@ -32,6 +31,13 @@ function InputWrapper({
   );
 }
 
+const initialAuctionValues: TAuctionInput = {
+  title: "",
+  endsAt: new Date(),
+  price: 0,
+  description: "",
+  photos: [],
+};
 const AuctionForm = ({
   defaultValues,
   actionName,
@@ -39,18 +45,23 @@ const AuctionForm = ({
   defaultValues?: TAuctionInput;
   actionName: string;
 }) => {
+  defaultValues = defaultValues ?? initialAuctionValues;
+
   const {
+    getValues,
     control,
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm({ defaultValues, resolver: zodResolver(auctionSchema) });
 
   const [date, setDate] = React.useState<Date | undefined>(
     defaultValues?.endsAt,
   );
 
+  const watchPhotos = watch("photos");
   const onSubmit = (data: TAuctionInput) => console.log(data);
 
   return (
@@ -104,11 +115,28 @@ const AuctionForm = ({
       <section className="flex flex-col gap-6 rounded-[32px] bg-white px-[80px] py-[40px]">
         <div>
           <h2 className="text-2xl font-bold">Photos</h2>
-          <p>The first photo is going to be tha main photo</p>
         </div>
 
-        <PhotoInputField />
-
+        <InputWrapper
+          label={"The first photo is going to be tha main photo"}
+          error={errors.photos?.message}
+        >
+          <PhotoInputField
+            photos={watchPhotos}
+            onPhotoDelete={(photoToDeleteUrl) => {
+              const allPhotos = getValues("photos");
+              setValue(
+                "photos",
+                allPhotos.filter((photoUrl) => photoUrl !== photoToDeleteUrl),
+              );
+            }}
+            onPhotoAdd={(url) => {
+              url =
+                "https://m.media-amazon.com/images/I/81Y9CbfG2sL._AC_UF894,1000_QL80_.jpg";
+              setValue("photos", [...getValues("photos"), url]);
+            }}
+          />
+        </InputWrapper>
         <Button type="submit" className="self-start">
           {actionName}
         </Button>

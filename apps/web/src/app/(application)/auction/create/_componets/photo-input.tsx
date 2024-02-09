@@ -1,7 +1,44 @@
 "use client";
+import * as React from "react";
 import { Icons } from "@/components/icons";
+const BlankPhoto = () => {
+  return (
+    <div className="bg flex h-[130px] w-[200px] items-center justify-center rounded-xl bg-gray-50">
+      <Icons.Camera />
+    </div>
+  );
+};
 
-const PhotoInput = ({ key }: { key?: string }) => {
+interface PhotoInputFieldProps {
+  photos: string[];
+  onPhotoAdd: (url: string) => void;
+  onPhotoDelete: (url: string) => void;
+}
+
+interface PhotoInputProps
+  extends Omit<PhotoInputFieldProps, "photos" | "onPhotoDelete"> {
+  key?: string;
+}
+const PhotoInput = ({ key, onPhotoAdd }: PhotoInputProps) => {
+  const handleFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      if (!e.target) return;
+      const arrayBuffer = e.target.result as ArrayBuffer;
+      const blob = new Blob([arrayBuffer]);
+
+      const url = "";
+      //TODO: add photo upload to the cdn and get the url
+
+      onPhotoAdd(url);
+    };
+
+    reader.readAsArrayBuffer(file!);
+  };
+
   return (
     <div className="flex h-[130px] w-[200px] items-center justify-center">
       <label
@@ -17,14 +54,67 @@ const PhotoInput = ({ key }: { key?: string }) => {
             SVG, PNG, JPG or GIF
           </p>
         </div>
-        <input id="dropzone-file" type="file" className="hidden" />
+        <input
+          accept="image/png, image/jpeg"
+          id="dropzone-file"
+          type="file"
+          className="hidden"
+          onInput={handleFileSelected}
+        />
       </label>
     </div>
   );
 };
 
-const PhotoInputField = () => {
-  return <PhotoInput />;
+const FilledPhoto = ({
+  url,
+  onPhotoDelete,
+}: {
+  url: string;
+  onPhotoDelete: (url: string) => void;
+}) => {
+  return (
+    <div className="relative flex h-[130px] w-[200px] items-center justify-center overflow-hidden rounded-xl">
+      <span
+        className="absolute cursor-pointer opacity-0 transition hover:opacity-100"
+        onClick={() => onPhotoDelete(url)}
+      >
+        <Icons.MinusCircle color="red" width={48} height={48} />
+      </span>
+      <img
+        src={url}
+        alt={"some photo"}
+        className="h-full w-full object-cover"
+      />
+    </div>
+  );
+};
+
+const PhotoInputField = ({
+  onPhotoDelete,
+  photos,
+  onPhotoAdd,
+}: PhotoInputFieldProps) => {
+  const filledPhotosLength = photos.length;
+  const blankPhotosLength = 8 - filledPhotosLength;
+  photos = photos.slice(0, 8);
+
+  const blankPhotos = Array.from(
+    { length: blankPhotosLength },
+    (_, i) => i + 1,
+  );
+
+  return (
+    <div className="flex flex-wrap gap-4">
+      {photos.map((url) => (
+        <FilledPhoto key={url} url={url} onPhotoDelete={onPhotoDelete} />
+      ))}
+      {filledPhotosLength < 8 && <PhotoInput onPhotoAdd={onPhotoAdd} />}
+      {blankPhotos.map((i) => (
+        <BlankPhoto key={i} />
+      ))}
+    </div>
+  );
 };
 
 export { PhotoInputField };
