@@ -11,11 +11,22 @@ const auctionSchema = z.object({
   photos: z.array(z.string()),
 });
 
-const signupSchema = z.object({
-  password: z.string(),
-  nickname: z.string(),
-  email: z.string().email(),
-});
+const signupSchema = z
+  .object({
+    password: z.string().min(6),
+    confirmPassword: z.string().min(6),
+    nickname: z.string(),
+    email: z.string().email(),
+  })
+  .superRefine(({ confirmPassword, password }, refinementContext) => {
+    if (password !== confirmPassword) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
 
 const loginSchema = z.object({
   email: z.string().email(),
