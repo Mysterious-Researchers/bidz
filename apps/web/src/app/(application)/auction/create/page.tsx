@@ -1,4 +1,4 @@
-import { AuctionForm } from "@/app/(application)/auction/create/_componets/auction-form";
+import { AuctionForm } from "@/app/(application)/auction/_components/auction-form";
 
 export default function Page() {
   return (

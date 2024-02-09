@@ -8,7 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { type TAuctionInput, auctionSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PhotoInputField } from "@/app/(application)/auction/create/_componets/photo-input";
+import { PhotoInputField } from "@/app/(application)/auction/_components/photo-input";
 
 const initialAuctionValues: TAuctionInput = {
   title: "",
