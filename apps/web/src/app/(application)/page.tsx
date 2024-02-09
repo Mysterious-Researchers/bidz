@@ -1,7 +1,7 @@
 export default function HomePage() {
   return (
     <main className="flex min-h-[calc(100vh-480px)] flex-1 flex-col">
-      <span>LOL</span>
+      <span>Home page with all the auctions</span>
     </main>
   );
 }

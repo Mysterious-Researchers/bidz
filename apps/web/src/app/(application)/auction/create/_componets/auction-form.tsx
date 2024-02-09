@@ -2,34 +2,13 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
-import { Input } from "@/components/ui/input";
+import { Input, InputWrapper } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Textarea } from "@/components/ui/textarea";
 import { type TAuctionInput, auctionSchema } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PhotoInputField } from "@/app/(application)/auction/create/_componets/photo-input";
-interface LabelWrapperProps {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
-  error?: string;
-}
-
-function InputWrapper({
-  label,
-  children,
-  className,
-  error,
-}: LabelWrapperProps) {
-  return (
-    <div className={cn("flex flex-col gap-2", className)}>
-      <label className="font-semibold text-gray-700">{label}</label>
-      {children}
-      {error && <p className="text-red-500">{error}</p>}
-    </div>
-  );
-}
 
 const initialAuctionValues: TAuctionInput = {
   title: "",

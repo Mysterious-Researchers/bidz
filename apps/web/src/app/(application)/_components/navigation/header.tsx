@@ -21,7 +21,9 @@ function Header() {
             ))}
           </ul>
         </nav>
-        <Button>Join our community</Button>
+        <Link href="/login">
+          <Button>Join our community</Button>
+        </Link>
       </div>
 
       <OpenMobileHeaderButtonAndMobileHeader />
