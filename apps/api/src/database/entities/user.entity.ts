@@ -5,10 +5,12 @@ import {
   DataType,
   PrimaryKey,
   HasMany,
+  HasOne,
 } from 'sequelize-typescript';
 import { Bid } from './bid.entity';
 import { Message } from './message.entity';
 import { Auction } from './auction.entity';
+import { MailTokenEntity } from './mail.token.entity';
 
 const Statuses = ['APPROVED', 'PENDING', 'DECLINED'];
 
@@ -62,4 +64,7 @@ export class User extends Model {
 
   @HasMany(() => Auction)
   auctions: Auction[];
+
+  @HasOne(() => MailTokenEntity)
+  mailToken: MailTokenEntity;
 }
