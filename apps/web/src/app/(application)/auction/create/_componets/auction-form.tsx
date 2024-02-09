@@ -35,6 +35,7 @@ const initialAuctionValues: TAuctionInput = {
   title: "",
   endsAt: new Date(),
   price: 0,
+  stepPrice: 1,
   description: "",
   photos: [],
 };
@@ -83,6 +84,17 @@ const AuctionForm = ({
             {...register("price")}
             className="bg-slate-50"
             placeholder="Specify minimal price of the thing"
+          />
+        </InputWrapper>
+
+        <InputWrapper
+          label="Step price (in usd)"
+          error={errors.stepPrice?.message}
+        >
+          <Input
+            {...register("stepPrice")}
+            className="bg-slate-50"
+            placeholder="Specify a minimal step price of the thing"
           />
         </InputWrapper>
         <InputWrapper
