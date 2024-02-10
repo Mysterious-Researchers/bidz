@@ -4,7 +4,8 @@ import { type TSignupInput, signupSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputWrapper, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import { toast } from "sonner";
+import { type BaseError } from "@/lib/api/client";
 import AuthApi from "@/lib/api/auth";
 
 const defaultValues: TSignupInput = {
@@ -27,9 +28,9 @@ function SignupForm() {
   const onSubmit = async (data: TSignupInput) => {
     try {
       await AuthApi.register(data);
-    } catch (error) {
-      console.log(error);
-    }
+
+      toast.success(`Check your inbox at ${data.email} to verify your account`);
+    } catch (error) {}
   };
 
   console.log(errors);
