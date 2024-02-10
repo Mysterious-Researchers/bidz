@@ -3,12 +3,19 @@ import { AuctionService } from '../services/auction.service';
 import { AuctionController } from '../controllers/auction.controller';
 import { messageProviders } from '../../database/providers/message.provider';
 import { DatabaseModule } from '../../database/database.module';
-import { MessageMapper } from '../mappers/message.mapper';
+import {bidProviders} from "../../database/providers/bid.provider";
+import {BidMapper} from "../mappers/bid.mapper";
+import {MessageModule} from "./message.module";
+import {BidModule} from "./bid.module";
 
 @Module({
   controllers: [AuctionController],
-  providers: [AuctionService, MessageMapper, ...messageProviders],
+  providers: [
+    AuctionService,
+    ...messageProviders,
+    ...bidProviders,
+  ],
   exports: [AuctionService],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, MessageModule, BidModule],
 })
 export class AuctionModule {}

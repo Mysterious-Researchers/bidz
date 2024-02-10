@@ -5,16 +5,16 @@ import { MessageMapper } from '../mappers/message.mapper';
 import { messageProviders } from '../../database/providers/message.provider';
 import { DatabaseModule } from '../../database/database.module';
 import {userProviders} from "../../database/providers/user.providers";
+import {MapperModule} from "./mapper.module";
 
 @Module({
   providers: [
     MessageGateway,
     MessageService,
-    MessageMapper,
     ...messageProviders,
     ...userProviders,
   ],
   exports: [MessageService],
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, MapperModule],
 })
 export class MessageModule {}
