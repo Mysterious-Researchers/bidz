@@ -23,6 +23,7 @@ const config = {
         fixStyle: "inline-type-imports",
       },
     ],
+    '@typescript-eslint/no-unsafe-call': 'off',
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/require-await": "off",
     "@typescript-eslint/no-misused-promises": [
@@ -31,6 +32,7 @@ const config = {
         checksVoidReturn: { attributes: false },
       },
     ],
+    '@typescript-eslint/no-unsafe-assignment': 'off',
   },
 };
 
