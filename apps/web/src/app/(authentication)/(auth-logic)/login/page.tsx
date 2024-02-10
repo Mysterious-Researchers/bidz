@@ -1,4 +1,4 @@
-import { LoginForm } from "@/app/(authentication)/login/_components/login-form";
+import { LoginForm } from "@/app/(authentication)/(auth-logic)/login/_components/login-form";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 

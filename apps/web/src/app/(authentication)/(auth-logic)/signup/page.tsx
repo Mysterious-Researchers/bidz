@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { SignupForm } from "@/app/(authentication)/signup/_components/signup-form";
+import { SignupForm } from "@/app/(authentication)/(auth-logic)/signup/_components/signup-form";
 
 export default function SignUpPage({}) {
   return (

@@ -5,8 +5,13 @@ class AuthApi {
     return await client.post("/auth/login", body);
   }
 
+  // TODO: add logic of putting stuff into local storage
   async register(body: TSignupInput) {
     return await client.post("/auth/register", body);
+  }
+
+  async verifyEmail(token: string) {
+    return await client.post(`/auth/verify/${token}`);
   }
 }
 
