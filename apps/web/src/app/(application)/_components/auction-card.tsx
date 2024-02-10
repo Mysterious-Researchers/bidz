@@ -80,14 +80,18 @@ const AuctionCard = ({ auction }: ProjectCardProps) => {
         <CardTitle className="text-3xl">{auction.title}</CardTitle>
         <CardDescription>{auction.description}</CardDescription>
         <div className="flex justify-between">
-          <h3>Current price ($)</h3>
+          <h3 className="font-bold">Current price ($)</h3>
           <span>1212</span>
         </div>
 
         <div className="flex justify-between">
-          <h3>Active bidders</h3>
+          <h3 className="font-bold">Active bidders</h3>
           <span>12</span>
         </div>
+
+        <Link href={`auction/${auction.id}`}>
+          <Button>Join bidding session</Button>
+        </Link>
       </div>
     </Card>
   );

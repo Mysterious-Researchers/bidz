@@ -4,7 +4,9 @@ import { type TAuctionInput } from "@/lib/schemas";
 export type TAuctionsListItem = Omit<
   TAuctionInput,
   "price" | "endsAt" | "stepPrice"
->;
+> & {
+  id: number;
+};
 
 export const possibleCategories = ["price", "popularity", "name"] as const;
 
@@ -12,6 +14,7 @@ export type TCategory = (typeof possibleCategories)[number];
 
 const listItems: TAuctionsListItem[] = [
   {
+    id: 31,
     title: "Auction 1",
     description: "Description 1",
     photos: [
@@ -21,17 +24,20 @@ const listItems: TAuctionsListItem[] = [
     ],
   },
   {
+    id: 2,
     title: "Auction 2",
     description: "Description 1",
     photos: ["https://via.placeholder.com/150"],
   },
   {
+    id: 2,
     title: "Auction 3",
     description: "Description 1",
     photos: ["https://via.placeholder.com/150"],
   },
 
   {
+    id: 3,
     title: "Auction 1",
     description: "Description 1",
     photos: [
@@ -41,11 +47,13 @@ const listItems: TAuctionsListItem[] = [
     ],
   },
   {
+    id: 4,
     title: "Auction 2",
     description: "Description 1",
     photos: ["https://via.placeholder.com/150"],
   },
   {
+    id: 5,
     title: "Auction 3",
     description: "Description 1",
     photos: ["https://via.placeholder.com/150"],

@@ -3,6 +3,10 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { AuctionCombobox } from "@/components/ui/comboboxes/select-auction";
+import { Button } from "@/components/ui/button";
+import { Icons } from "@/components/icons";
+
 interface SearchComponentProps {
   defaultSearchValue?: string;
 }
@@ -32,11 +36,14 @@ function SearchComponent({ defaultSearchValue }: SearchComponentProps) {
   }, 300);
 
   return (
-    <div className="flex justify-between">
+    <div className="mb-4 flex items-center justify-between">
       <Input
+        placeholder="Search for an auction"
+        className="h-[50px] w-full text-[16px] md:max-w-[50%] lg:max-w-[30%]"
         defaultValue={defaultSearchValue}
         onChange={(event) => handleInputChangeDebounced(event.target.value)}
       />
+      <AuctionCombobox />
     </div>
   );
 }
