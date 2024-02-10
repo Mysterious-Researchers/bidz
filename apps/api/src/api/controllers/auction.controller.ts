@@ -1,8 +1,8 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { AuctionService } from '../services/auction.service';
 import { MessageMapper } from '../mappers/message.mapper';
-import {BidMapper} from "../mappers/bid.mapper";
-import {AuctionMapper} from "../mappers/auction.mapper";
+import { BidMapper } from '../mappers/bid.mapper';
+import { AuctionMapper } from '../mappers/auction.mapper';
 
 @Controller('auctions')
 export class AuctionController {
