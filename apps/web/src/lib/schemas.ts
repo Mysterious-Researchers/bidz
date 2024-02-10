@@ -13,9 +13,11 @@ const auctionSchema = z.object({
 
 const signupSchema = z
   .object({
+    firstName: z.string(),
+    middleName: z.string().optional(),
+    lastName: z.string(),
     password: z.string().min(6),
     confirmPassword: z.string().min(6),
-    nickname: z.string(),
     email: z.string().email(),
   })
   .superRefine(({ confirmPassword, password }, refinementContext) => {

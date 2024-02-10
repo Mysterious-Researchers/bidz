@@ -5,10 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputWrapper, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+import AuthApi from "@/lib/api/auth";
+
 const defaultValues: TSignupInput = {
   email: "",
   password: "",
-  nickname: "",
+  firstName: "",
+  lastName: "",
+  middleName: "",
   confirmPassword: "",
 };
 function SignupForm() {
@@ -20,9 +24,12 @@ function SignupForm() {
     defaultValues,
     resolver: zodResolver(signupSchema),
   });
-  const onSubmit = (data: TSignupInput) => {
-    //TOOO: bind to the api
-    console.log(data);
+  const onSubmit = async (data: TSignupInput) => {
+    try {
+      await AuthApi.register(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   console.log(errors);
@@ -36,9 +43,20 @@ function SignupForm() {
         </p>
       </section>
 
-      <InputWrapper label={"Nickname"} error={errors.nickname?.message}>
-        <Input {...register("nickname")} className="w-[380px]" />
+      <InputWrapper label={"First name"} error={errors.firstName?.message}>
+        <Input {...register("firstName")} className="w-[380px]" />
       </InputWrapper>
+      <InputWrapper
+        label={"Middle name (optional)"}
+        error={errors.middleName?.message}
+      >
+        <Input {...register("middleName")} className="w-[380px]" />
+      </InputWrapper>
+
+      <InputWrapper label={"Last name"} error={errors.middleName?.message}>
+        <Input {...register("lastName")} className="w-[380px]" />
+      </InputWrapper>
+
       <InputWrapper label={"Email"} error={errors.email?.message}>
         <Input {...register("email")} className="w-[380px]" />
       </InputWrapper>
