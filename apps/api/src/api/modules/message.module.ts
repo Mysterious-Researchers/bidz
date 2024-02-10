@@ -6,6 +6,7 @@ import { messageProviders } from '../../database/providers/message.provider';
 import { DatabaseModule } from '../../database/database.module';
 import {userProviders} from "../../database/providers/user.providers";
 import {MapperModule} from "./mapper.module";
+import {BidModule} from "./bid.module";
 
 @Module({
   providers: [
@@ -15,6 +16,6 @@ import {MapperModule} from "./mapper.module";
     ...userProviders,
   ],
   exports: [MessageService],
-  imports: [DatabaseModule, MapperModule],
+  imports: [MapperModule, BidModule],
 })
 export class MessageModule {}
