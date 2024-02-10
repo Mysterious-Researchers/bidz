@@ -22,7 +22,6 @@ import * as process from "process";
   ],
   controllers: [AuthController],
   imports: [
-    DatabaseModule,
     EmailModule,
     PassportModule,
     JwtModule.register({
