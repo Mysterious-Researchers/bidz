@@ -53,6 +53,7 @@ export class Auction extends Model {
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
+    defaultValue: 0,
   })
   currentPrice: number;
 

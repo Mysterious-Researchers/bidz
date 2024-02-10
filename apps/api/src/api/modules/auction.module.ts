@@ -8,15 +8,19 @@ import {BidMapper} from "../mappers/bid.mapper";
 import {MessageModule} from "./message.module";
 import {BidModule} from "./bid.module";
 import {MapperModule} from "./mapper.module";
+import {AuctionGateway} from "../gateways/auction.gateway";
+import {auctionProviders} from "../../database/providers/auction.provider";
 
 @Module({
   controllers: [AuctionController],
   providers: [
+    AuctionGateway,
     AuctionService,
     ...messageProviders,
     ...bidProviders,
+    ...auctionProviders,
   ],
   exports: [AuctionService],
-  imports: [DatabaseModule, MessageModule, BidModule, MapperModule],
+  imports: [MessageModule, BidModule, MapperModule],
 })
 export class AuctionModule {}

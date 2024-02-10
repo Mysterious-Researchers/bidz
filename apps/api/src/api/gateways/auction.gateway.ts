@@ -15,8 +15,8 @@ import {BidMapper} from "../mappers/bid.mapper";
 
 const port = 8001;
 
-@WebSocketGateway(port, { cors: '*', path: '/sockets' })
-export class MessageGateway {
+@WebSocketGateway(port, { cors: '*' })
+export class AuctionGateway {
   constructor(
     private messageService: MessageService,
     private bidService: BidService,
