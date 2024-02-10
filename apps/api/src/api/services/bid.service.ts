@@ -1,8 +1,8 @@
-import {Inject, Injectable} from "@nestjs/common";
-import {Bid} from "../../database/entities/bid.entity";
-import {BidDto} from "../dto/bid.dto";
-import {Auction} from "../../database/entities/auction.entity";
-import {User} from "../../database/entities/user.entity";
+import { Inject, Injectable } from '@nestjs/common';
+import { Bid } from '../../database/entities/bid.entity';
+import { BidDto } from '../dto/bid.dto';
+import { Auction } from '../../database/entities/auction.entity';
+import { User } from '../../database/entities/user.entity';
 
 @Injectable()
 export class BidService {

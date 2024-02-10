@@ -5,13 +5,13 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import {Server, Socket} from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { MessageDto } from '../dto/message.dto';
 import { MessageService } from '../services/message.service';
 import { MessageMapper } from '../mappers/message.mapper';
-import {BidDto} from "../dto/bid.dto";
-import {BidService} from "../services/bid.service";
-import {BidMapper} from "../mappers/bid.mapper";
+import { BidDto } from '../dto/bid.dto';
+import { BidService } from '../services/bid.service';
+import { BidMapper } from '../mappers/bid.mapper';
 
 const port = 8001;
 

@@ -1,5 +1,5 @@
-import {Injectable} from "@nestjs/common";
-import {Auction} from "../../database/entities/auction.entity";
+import { Injectable } from '@nestjs/common';
+import { Auction } from '../../database/entities/auction.entity';
 
 @Injectable()
 export class AuctionMapper {
@@ -12,6 +12,6 @@ export class AuctionMapper {
       stepPrice: auction.dataValues.stepPrice,
       currentPrice: auction.dataValues.currentPrice,
       endDate: auction.dataValues.endDate,
-    }
+    };
   }
 }
