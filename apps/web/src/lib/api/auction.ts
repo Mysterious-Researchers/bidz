@@ -61,8 +61,8 @@ const listItems: TAuctionsListItem[] = [
 ];
 class AuctionApi {
   async getListOfAuctions(search = "", categories: TCategory[]) {
-    console.log("from getListOfAuctions", search, categories);
-
+    // console.log("from getListOfAuctions", search, categories);
+    return delay(listItems);
     // return await client.get<TAuctionsListItem[]>();
   }
 

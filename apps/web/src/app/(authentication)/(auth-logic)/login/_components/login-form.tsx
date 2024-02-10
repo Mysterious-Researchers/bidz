@@ -4,6 +4,7 @@ import { type TLoginInput, loginSchema } from "@/lib/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InputWrapper, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import AuthApi from "@/lib/api/auth";
 
 const defaultValues: TLoginInput = {
   email: "",
@@ -18,9 +19,10 @@ function LoginForm() {
     defaultValues,
     resolver: zodResolver(loginSchema),
   });
-  const onSubmit = (data: TLoginInput) => {
-    //TOOO: bind to the api
-    console.log(data);
+  const onSubmit = async (data: TLoginInput) => {
+    try {
+      await AuthApi.login(data);
+    } catch (error) {}
   };
 
   return (
