@@ -1,12 +1,20 @@
 import {Inject, Injectable} from "@nestjs/common";
 import {Bid} from "../../database/entities/bid.entity";
 import {BidDto} from "../dto/bid.dto";
+import {Auction} from "../../database/entities/auction.entity";
+import {User} from "../../database/entities/user.entity";
 
 @Injectable()
 export class BidService {
   constructor(
     @Inject('BIDS_REPOSITORY')
     private bidModel: typeof Bid,
+
+    @Inject('AUCTIONS_REPOSITORY')
+    private auctionModel: typeof Auction,
+
+    @Inject('USERS_REPOSITORY')
+    private userModel: typeof User,
   ) {}
 
   async saveBid(data: BidDto) {
@@ -16,7 +24,12 @@ export class BidService {
       value: data.value,
     });
 
-    const user = await this.bidModel.findOne({
+    await this.auctionModel.increment('currentPrice', {
+      by: data.value,
+      where: { id: data.auctionId },
+    });
+
+    const user = await this.userModel.findOne({
       where: {
         id: data.userId,
       },
