@@ -6,7 +6,6 @@ import { Auction } from '../../database/entities/auction.entity';
 import { CreateAuctionDto } from '../dto/create-auction.dto';
 import { Photo } from '../../database/entities/photo.entity';
 
-
 @Injectable()
 export class AuctionService {
   constructor(
@@ -61,29 +60,30 @@ export class AuctionService {
     });
   }
 
-  async createAuction(auctionData: CreateAuctionDto): Promise<Auction> {
-    const auction = await this.auctionModel.create(
-      auctionData as Omit<Auction, 'id'>,
+  async createAuction(auctionData: CreateAuctionDto) {
+    const { dataValues } = await this.auctionModel.create({
+      userId: auctionData.userId,
+      name: auctionData.name,
+      endDate: auctionData.endDate,
+      description: auctionData.description,
+      startPrice: auctionData.startPrice,
+      stepPrice: auctionData.stepPrice,
+    });
+
+    await Promise.all(
+      auctionData.photos.map(async (link) => {
+        await this.photoModel.update(
+          { auctionId: dataValues.id },
+          { where: { link } },
+        );
+      }),
     );
 
-    let photos: Photo[] = [];
-
-    if (auctionData.photos && auctionData.photos.length > 0) {
-      photos = await this.photoModel.findAll({
-        where: { link: auctionData.photos.map((photo) => photo.link) },
-      });
-
-      await Promise.all(
-        photos.map(async (photo) => {
-          await photo.update({ auctionId: auction.id });
-        }),
-      );
-    }
-
     return {
-      ...auction.dataValues,
-      photos,
-    } as Auction;
+      id: dataValues.id,
+      currentPrice: dataValues.currentPrice,
+      ...auctionData,
+    };
   }
 
   async updateAuction(
