@@ -14,7 +14,7 @@ client.interceptors.response.use(
   },
   (error) => {
     const errorMessage = (error as BaseError).response?.data.message;
-    toast.error(errorMessage ?? "Something went wrong");
+    if (globalThis.window) toast.error(errorMessage ?? "Something went wrong");
     throw error;
   },
 );

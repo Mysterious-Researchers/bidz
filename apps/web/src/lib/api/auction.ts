@@ -12,7 +12,12 @@ export type TCategory = (typeof possibleCategories)[number];
 
 class AuctionApi {
   async getAllAuctions(search = "", categories: TCategory[]) {
-    return await client.get<TAuctionEndpoints["getAllAuctions"]>("/auctions");
+    return await client.get<TAuctionEndpoints["getAllAuctions"]>("/auctions", {
+      params: {
+        name: search,
+        categories,
+      },
+    });
   }
 
   async getAuctionMessages(auctionId: string) {

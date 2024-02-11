@@ -30,8 +30,11 @@ export class AuctionController {
   }
 
   @Get()
-  async getAllAuctions(@Query() sortOptions?: AuctionSortingDto) {
-    return await this.auctionService.getAllAuctions(sortOptions);
+  async getAllAuctions(
+    @Query() sortOptions?: AuctionSortingDto,
+    @Query('name') name?: string,
+  ) {
+    return await this.auctionService.getAllAuctions(sortOptions, name);
   }
 
   @Get('/:auctionId/messages')
