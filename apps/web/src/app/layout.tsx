@@ -1,7 +1,7 @@
 import "@/styles/globals.css";
-
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import Providers from "@/app/providers";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,8 +24,10 @@ export default function RootLayout({
       <body
         className={`font-sans ${inter.variable} flex min-h-screen flex-col items-center `}
       >
-        {children}
-        <Toaster richColors closeButton />
+        <Providers>
+          {children}
+          <Toaster richColors closeButton />
+        </Providers>
       </body>
     </html>
   );

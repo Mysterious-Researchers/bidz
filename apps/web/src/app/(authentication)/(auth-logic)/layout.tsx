@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <div className="flex h-[100vh] w-full">
       <section className="flex hidden flex-1 flex-col justify-between bg-black p-6 px-[40px] py-[80px] lg:flex">
-        <Link href="/apps/web/public">
+        <Link href="/">
           <Image
             src="/logo-white.svg"
             alt="logo"

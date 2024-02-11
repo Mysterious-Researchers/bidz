@@ -1,17 +1,29 @@
 import { client } from "@/lib/api/client";
 import { type TLoginInput, type TSignupInput } from "@/lib/schemas";
+import { type TAuthEndpoints } from "../../../../../libs/types";
+import * as TelegramService from "@/lib/services/telegram";
 class AuthApi {
   async login(body: TLoginInput) {
-    return await client.post("/auth/login", body);
+    return await client.post<TAuthEndpoints["login"]>("/auth/login", body);
   }
 
-  // TODO: add logic of putting stuff into local storage
   async register(body: TSignupInput) {
-    return await client.post("/auth/register", body);
+    return await client.post<TAuthEndpoints["register"]>(
+      "/auth/register",
+      body,
+    );
   }
 
-  async verifyEmail(token: string) {
-    return await client.post(`/auth/verify/${token}`);
+  async verifyEmailAndSaveAuthTokens(token: string) {
+    try {
+      const response = await client.post<TAuthEndpoints["verify"]>(
+        `/auth/verify/${token}`,
+      );
+      TelegramService.saveAuthTokens(response.data);
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
