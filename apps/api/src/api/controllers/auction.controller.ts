@@ -52,4 +52,3 @@ export class AuctionController {
     return this.auctionService.updateAuction(auctionId, updatedAuctionData);
   }
 }
-

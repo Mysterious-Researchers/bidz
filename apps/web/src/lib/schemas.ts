@@ -10,7 +10,11 @@ const auctionSchema = z.object({
     .gt(0),
   endDate: z.coerce.date(),
   description: z.string(),
+<<<<<<< HEAD
   photos: z.array(z.object({ link: z.string(), index: z.number() })),
+=======
+  photos: z.array(z.string()),
+>>>>>>> 044e13b (feat: a lot of breaking changes)
 });
 
 const signupSchema = z
