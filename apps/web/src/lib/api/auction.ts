@@ -63,7 +63,7 @@ class AuctionApi {
   async getListOfAuctions(search = "", categories: TCategory[]) {
     // console.log("from getListOfAuctions", search, categories);
     return delay(listItems);
-    // return await client.get<TAuctionsListItem[]>();
+    // return await client.get();
   }
 
   async getAuctionById(id: string) {
