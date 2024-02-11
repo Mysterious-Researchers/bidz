@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { AuctionService } from '../services/auction.service';
-import { MessageMapper } from '../mappers/message.mapper';
-import { BidMapper } from '../mappers/bid.mapper';
-import { AuctionMapper } from '../mappers/auction.mapper';
-import { CreateAuctionDto } from '../dto/create-auction.dto';
+import { Body, Controller, Get, Param, Patch, Post, Query } from "@nestjs/common";
+import { AuctionService } from "../services/auction.service";
+import { MessageMapper } from "../mappers/message.mapper";
+import { BidMapper } from "../mappers/bid.mapper";
+import { AuctionMapper } from "../mappers/auction.mapper";
+import { CreateAuctionDto } from "../dto/create-auction.dto";
+import { AuctionSortingDto } from "../dto/auction-sorting.dto";
 
 @Controller('auctions')
 export class AuctionController {
@@ -21,8 +22,8 @@ export class AuctionController {
   }
 
   @Get()
-  async getAllAuctions() {
-    return this.auctionService.getAllAuctions();
+  async getAllAuctions(@Query() sortOptions?: AuctionSortingDto) {
+    return await this.auctionService.getAllAuctions(sortOptions);
   }
 
   @Get('/:auctionId/messages')
