@@ -9,7 +9,6 @@ const port = process.env.PORT ?? 3000;
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
-  // app.useStaticAssets(join(__dirname, '/static/'));
   app.useStaticAssets(
     join(__dirname, '..', 'dist', 'config', 'static', 'photos'),
     {
