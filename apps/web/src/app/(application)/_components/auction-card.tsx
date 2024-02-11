@@ -61,7 +61,7 @@ const AuctionCard = ({ auction }: ProjectCardProps) => {
         <div className="flex h-[20px] items-center justify-center gap-1 bg-sky-950">
           {auction.photos.map(({ link, index }, i) => (
             <div
-              className={`h-[8px] w-[8px] cursor-pointer rounded ${index === current - 1 ? "bg-white" : "bg-[#667E8F]"}`}
+              className={`h-[8px] w-[8px] cursor-pointer rounded ${i === current - 1 ? "bg-white" : "bg-[#667E8F]"}`}
               key={link}
               onClick={() => handleCircleSelected(i)}
             ></div>
