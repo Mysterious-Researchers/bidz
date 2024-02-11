@@ -1,4 +1,5 @@
 "use client";
+import { type TAuctionInput } from "@/lib/schemas";
 import * as React from "react";
 import { Icons } from "@/components/icons";
 import PhotoApi from "@/lib/api/photo";
@@ -11,8 +12,8 @@ const BlankPhoto = () => {
 };
 
 interface PhotoInputFieldProps {
-  photos: string[];
-  onPhotoAdd: (url: string) => void;
+  photos: TAuctionInput["photos"];
+  onPhotoAdd: (obj: TAuctionInput["photos"][0]) => void;
   onPhotoDelete: (url: string) => void;
 }
 
@@ -33,9 +34,7 @@ const PhotoInput = ({ onPhotoAdd, index }: PhotoInputProps) => {
       data: { link },
     } = await PhotoApi.createPhoto(form, index);
 
-    onPhotoAdd(link);
-
-    // reader.readAsArrayBuffer(file!);
+    onPhotoAdd({ link, index });
   };
 
   return (
@@ -105,8 +104,8 @@ const PhotoInputField = ({
 
   return (
     <div className="flex flex-wrap gap-4">
-      {photos.map((url, index) => (
-        <FilledPhoto key={url} url={url} onPhotoDelete={onPhotoDelete} />
+      {photos.map(({ link }, index) => (
+        <FilledPhoto key={link} url={link} onPhotoDelete={onPhotoDelete} />
       ))}
       {filledPhotosLength < 8 && (
         <PhotoInput onPhotoAdd={onPhotoAdd} index={filledPhotosLength + 1} />

@@ -120,11 +120,11 @@ const AuctionForm = ({
               const allPhotos = getValues("photos");
               setValue(
                 "photos",
-                allPhotos.filter((photoUrl) => photoUrl !== photoToDeleteUrl),
+                allPhotos.filter(({ link }) => link !== photoToDeleteUrl),
               );
             }}
-            onPhotoAdd={(url) => {
-              setValue("photos", [...getValues("photos"), url]);
+            onPhotoAdd={(photoObj) => {
+              setValue("photos", [...getValues("photos"), photoObj]);
             }}
           />
         </InputWrapper>

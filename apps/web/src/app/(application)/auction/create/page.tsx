@@ -4,10 +4,15 @@ import {
   type AuctionFormProps,
 } from "@/app/(application)/auction/_components/auction-form";
 import AuctionApi from "@/lib/api/auction";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
   const handleAuctionCreate: AuctionFormProps["onSubmit"] = async (data) => {
     await AuctionApi.create(data);
+    toast.success("Auction created successfully");
+    router.push("/");
   };
 
   return (

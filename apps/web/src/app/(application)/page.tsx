@@ -3,6 +3,8 @@ import { AuctionList } from "@/app/(application)/_components/auction-list";
 import AuctionApi from "@/lib/api/auction";
 import { possibleCategories, type TCategory } from "@/lib/api/auction";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage({
   searchParams: { search, _categories },
 }: {
