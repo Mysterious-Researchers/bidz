@@ -6,7 +6,7 @@ import { Auction } from '../../database/entities/auction.entity';
 import { CreateAuctionDto } from '../dto/create-auction.dto';
 import { Photo } from '../../database/entities/photo.entity';
 import { AuctionSortingDto } from '../dto/auction-sorting.dto';
-
+import { AuctionSortingParams } from '../dto/auction.sorting.params';
 
 @Injectable()
 export class AuctionService {
@@ -55,13 +55,32 @@ export class AuctionService {
   async getAllAuctions(sortOptions?: AuctionSortingDto): Promise<Auction[]> {
     const { sortBy, sortOrder } = sortOptions || {};
 
-    return this.auctionModel.findAll({
-      include: [
-        {
-          model: Photo,
-        },
-      ],
-      order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
+    if (
+      sortBy === AuctionSortingParams.NAME ||
+      sortBy === AuctionSortingParams.CURRENT_PRICE
+    ) {
+      return this.auctionModel.findAll({
+        include: [{ model: Photo }, { model: Bid }],
+        order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
+      });
+    }
+
+    const auctions = await this.auctionModel.findAll({
+      include: [{ model: Photo }, { model: Bid }],
+    });
+
+    if (sortOrder && sortBy === AuctionSortingParams.BIDS) {
+      return this.sortByBids(auctions, sortOrder);
+    }
+
+    return auctions;
+  }
+
+  sortByBids(auctions, sortOrder: string) {
+    return auctions.sort((a, b) => {
+      return sortOrder === 'ASC'
+        ? a.bids.length + b.bids.length
+        : b.bids.length - a.bids.length;
     });
   }
 
