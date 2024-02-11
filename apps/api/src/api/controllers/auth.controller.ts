@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.serviсe';
 import { AuthDto } from '../dto/auth.dto';
 import { LocalAuthGuard } from '../../security/guards/local.auth.guard';
 import { JwtAuthGuard } from '../../security/guards/jwt.auth.guard';
+import { UserResponse } from '../responses/user.response';
 
 @Controller('auth')
 export class AuthController {
@@ -40,7 +41,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/me')
-  async getUser(@Req() req) {
+  async getUser(@Req() req): Promise<UserResponse> {
     return this.authService.getUser(req.user);
   }
 }
