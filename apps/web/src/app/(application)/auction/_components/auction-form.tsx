@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { useForm, Controller } from "react-hook-form";
 import { Input, InputWrapper } from "@/components/ui/input";
 import { DatePicker } from "@/components/ui/date-picker";
@@ -11,20 +10,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PhotoInputField } from "@/app/(application)/auction/_components/photo-input";
 
 const initialAuctionValues: TAuctionInput = {
-  title: "",
-  endsAt: new Date(),
-  price: 0,
+  name: "",
+  endDate: new Date(),
+  startPrice: 0,
   stepPrice: 1,
   description: "",
   photos: [],
 };
+
+interface AuctionFormProps {
+  defaultValues?: TAuctionInput;
+  actionName: string;
+  onSubmit: (data: TAuctionInput) => Promise<void>;
+}
 const AuctionForm = ({
   defaultValues,
   actionName,
-}: {
-  defaultValues?: TAuctionInput;
-  actionName: string;
-}) => {
+  onSubmit,
+}: AuctionFormProps) => {
   defaultValues = defaultValues ?? initialAuctionValues;
 
   const {
@@ -38,18 +41,17 @@ const AuctionForm = ({
   } = useForm({ defaultValues, resolver: zodResolver(auctionSchema) });
 
   const [date, setDate] = React.useState<Date | undefined>(
-    defaultValues?.endsAt,
+    defaultValues?.endDate,
   );
 
   const watchPhotos = watch("photos");
-  const onSubmit = (data: TAuctionInput) => console.log(data);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <section className="mb-[20px] flex flex-col gap-4 rounded-[32px] bg-white px-[80px] py-[40px]">
-        <InputWrapper label="Auction title" error={errors.title?.message}>
+        <InputWrapper label="Auction title" error={errors.name?.message}>
           <Input
-            {...register("title")}
+            {...register("name")}
             className="bg-slate-50"
             placeholder="Specify what you are selling"
           />
@@ -57,10 +59,10 @@ const AuctionForm = ({
 
         <InputWrapper
           label="Minimal price (in usd)"
-          error={errors.price?.message}
+          error={errors.startPrice?.message}
         >
           <Input
-            {...register("price")}
+            {...register("startPrice")}
             className="bg-slate-50"
             placeholder="Specify minimal price of the thing"
           />
@@ -87,16 +89,16 @@ const AuctionForm = ({
           />
         </InputWrapper>
 
-        <InputWrapper label="Auction end date" error={errors.endsAt?.message}>
+        <InputWrapper label="Auction end date" error={errors.endDate?.message}>
           <Controller
-            name={"endsAt"}
+            name={"endDate"}
             control={control}
             render={() => (
               <DatePicker
                 date={date}
                 onSelect={(newDate) => {
                   setDate(newDate);
-                  setValue("endsAt", newDate, { shouldValidate: true });
+                  setValue("endDate", newDate, { shouldValidate: true });
                 }}
               />
             )}
@@ -122,8 +124,6 @@ const AuctionForm = ({
               );
             }}
             onPhotoAdd={(url) => {
-              url =
-                "https://m.media-amazon.com/images/I/81Y9CbfG2sL._AC_UF894,1000_QL80_.jpg";
               setValue("photos", [...getValues("photos"), url]);
             }}
           />
@@ -135,4 +135,6 @@ const AuctionForm = ({
     </form>
   );
 };
+
 export { AuctionForm };
+export type { AuctionFormProps };

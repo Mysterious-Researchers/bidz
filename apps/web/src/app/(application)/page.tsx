@@ -21,12 +21,14 @@ export default async function HomePage({
     possibleCategories.includes(category),
   );
 
-  const auctions = await AuctionApi.getListOfAuctions(search, categories);
+  const response = await AuctionApi.getAllAuctions(search, categories);
+
+  console.log(response.data);
 
   return (
     <main className="flex min-h-[calc(100vh-480px)] flex-1 flex-col px-[80px] py-[80px]">
       <SearchComponent defaultSearchValue={search} />
-      <AuctionList auctions={auctions} />
+      <AuctionList auctions={response.data} />
     </main>
   );
 }

@@ -1,9 +1,16 @@
 import { client } from "@/lib/api/client";
-import {} from "../../../../../libs/types";
+import { type TPhotoEndpoints } from "../../../../../libs/types";
 
 class PhotoApi {
-  async createPhoto(body: { photo: Blob }, index: number) {
-    return await client.post(`/photos/${index}`, body);
+  async createPhoto(body: FormData, index: number) {
+    console.log("created a photo", body);
+    return await client.post<TPhotoEndpoints["createPhoto"]>(
+      `/photos/${index}`,
+      body,
+      {
+        headers: { "Content-Type": "image/jpeg" },
+      },
+    );
   }
 }
 

@@ -1,74 +1,45 @@
 import { client, delay } from "@/lib/api/client";
 import { type TAuctionInput } from "@/lib/schemas";
 
-export type TAuctionsListItem = Omit<
-  TAuctionInput,
-  "price" | "endsAt" | "stepPrice"
-> & {
-  id: number;
-};
+import { type TAuctionEndpoints } from "../../../../../libs/types";
+import { type Prettify } from "../../../../../libs/util-types";
+
+export type TAuctionsListItem = TAuctionEndpoints["getAllAuctions"][0];
 
 export const possibleCategories = ["price", "popularity", "name"] as const;
 
 export type TCategory = (typeof possibleCategories)[number];
 
-const listItems: TAuctionsListItem[] = [
-  {
-    id: 31,
-    title: "Auction 1",
-    description: "Description 1",
-    photos: [
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-    ],
-  },
-  {
-    id: 2,
-    title: "Auction 2",
-    description: "Description 1",
-    photos: ["https://via.placeholder.com/150"],
-  },
-  {
-    id: 2,
-    title: "Auction 3",
-    description: "Description 1",
-    photos: ["https://via.placeholder.com/150"],
-  },
-
-  {
-    id: 3,
-    title: "Auction 1",
-    description: "Description 1",
-    photos: [
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-    ],
-  },
-  {
-    id: 4,
-    title: "Auction 2",
-    description: "Description 1",
-    photos: ["https://via.placeholder.com/150"],
-  },
-  {
-    id: 5,
-    title: "Auction 3",
-    description: "Description 1",
-    photos: ["https://via.placeholder.com/150"],
-  },
-];
 class AuctionApi {
-  async getListOfAuctions(search = "", categories: TCategory[]) {
-    // console.log("from getListOfAuctions", search, categories);
-    return delay(listItems);
-    // return await client.get();
+  async getAllAuctions(search = "", categories: TCategory[]) {
+    return await client.get<TAuctionEndpoints["getAllAuctions"]>("/auctions");
+  }
+
+  async getAuctionMessages(auctionId: string) {
+    return await client.get<TAuctionEndpoints["getMessages"]>(
+      `actions/${auctionId}/messages`,
+    );
+  }
+
+  async getBids(auctionId: string) {
+    return await client.get<TAuctionEndpoints["getBids"]>(
+      `actions/${auctionId}/bids`,
+    );
   }
 
   async getAuctionById(id: string) {
-    return delay(listItems[0]);
-    // return await client.get<TAuctionsListItem[]>("auction");
+    return await client.get<TAuctionEndpoints["get"]>(id);
+  }
+
+  async create(body: TAuctionInput) {
+    return await client.post<TAuctionEndpoints["createAuction"]>(
+      "auctions",
+      body,
+    );
+  }
+
+  async edit(body: TAuctionInput, id: string) {
+    console.log("edited an auction", body);
   }
 }
 

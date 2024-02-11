@@ -1,13 +1,15 @@
 import z from "zod";
 
 const auctionSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  price: z.coerce.number({ description: "Input a price of your item" }).gt(0),
+  name: z.string(),
+  startPrice: z.coerce
+    .number({ description: "Input a price of your item" })
+    .gt(0),
   stepPrice: z.coerce
     .number({ description: "Input a step price of your item" })
     .gt(0),
-  endsAt: z.coerce.date(),
+  endDate: z.coerce.date(),
+  description: z.string(),
   photos: z.array(z.string()),
 });
 
