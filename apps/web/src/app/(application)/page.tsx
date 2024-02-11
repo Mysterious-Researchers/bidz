@@ -6,24 +6,15 @@ import { possibleCategories, type TCategory } from "@/lib/api/auction";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage({
-  searchParams: { search, _categories },
+  searchParams: { search, category },
 }: {
   params: never;
   searchParams: {
     search: string;
-    _categories: TCategory[] | TCategory;
+    category?: TCategory;
   };
 }) {
-  let categories;
-  if (!Array.isArray(_categories)) {
-    categories = [_categories];
-  } else categories = _categories;
-
-  categories = categories.filter((category) =>
-    possibleCategories.includes(category),
-  );
-
-  const response = await AuctionApi.getAllAuctions(search, categories);
+  const response = await AuctionApi.getAllAuctions(search, category);
 
   console.log(response.data);
 

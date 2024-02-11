@@ -67,7 +67,7 @@ export class AuctionService {
 
     if (name) {
       queryOptions.where = {
-        name: { [Op.like]: `%${name}%` },
+        name: { [Op.iLike]: `%${name}%` },
       };
     }
 

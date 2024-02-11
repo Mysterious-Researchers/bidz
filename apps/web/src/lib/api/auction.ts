@@ -5,17 +5,16 @@ import { type TAuctionEndpoints } from "../../../../../libs/types";
 import { type Prettify } from "../../../../../libs/util-types";
 
 export type TAuctionsListItem = TAuctionEndpoints["getAllAuctions"][0];
-
-export const possibleCategories = ["price", "popularity", "name"] as const;
+export const possibleCategories = ["bids", "currentPrice", "name"] as const;
 
 export type TCategory = (typeof possibleCategories)[number];
 
 class AuctionApi {
-  async getAllAuctions(search = "", categories: TCategory[]) {
+  async getAllAuctions(search = "", category?: TCategory) {
     return await client.get<TAuctionEndpoints["getAllAuctions"]>("/auctions", {
       params: {
         name: search,
-        categories,
+        sortBy: category,
       },
     });
   }
