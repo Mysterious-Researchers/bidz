@@ -38,13 +38,13 @@
 1. API Usage
 
 ```bash
-nx start dev api
+nx start:dev api
    ```
 
 2. WEB
 
 ```bash
-nx start dev web
+nx start:dev web
 ```
 
 
