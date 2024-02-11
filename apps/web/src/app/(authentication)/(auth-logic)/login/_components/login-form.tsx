@@ -5,12 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputWrapper, Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AuthApi from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 
 const defaultValues: TLoginInput = {
   email: "",
   password: "",
 };
 function LoginForm() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -22,6 +24,7 @@ function LoginForm() {
   const onSubmit = async (data: TLoginInput) => {
     try {
       await AuthApi.login(data);
+      router.push("/");
     } catch (error) {}
   };
 
