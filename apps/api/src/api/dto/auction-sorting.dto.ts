@@ -1,4 +1,6 @@
+import { AuctionSortingParams } from './auction.sorting.params';
+
 export class AuctionSortingDto {
-  sortBy?: 'name' | 'currentPrice';
+  sortBy?: AuctionSortingParams;
   sortOrder?: 'ASC' | 'DESC';
 }
