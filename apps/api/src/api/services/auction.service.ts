@@ -7,6 +7,7 @@ import { CreateAuctionDto } from '../dto/create-auction.dto';
 import { Photo } from '../../database/entities/photo.entity';
 import { AuctionSortingDto } from '../dto/auction-sorting.dto';
 import { AuctionSortingParams } from '../dto/auction.sorting.params';
+import { Op } from 'sequelize';
 
 @Injectable()
 export class AuctionService {
@@ -52,22 +53,25 @@ export class AuctionService {
     });
   }
 
-  async getAllAuctions(sortOptions?: AuctionSortingDto): Promise<Auction[]> {
+  async getAllAuctions(
+    sortOptions?: AuctionSortingDto,
+    name?: string,
+  ): Promise<Auction[]> {
     const { sortBy, sortOrder } = sortOptions || {};
 
-    if (
-      sortBy === AuctionSortingParams.NAME ||
-      sortBy === AuctionSortingParams.CURRENT_PRICE
-    ) {
-      return this.auctionModel.findAll({
-        include: [{ model: Photo }, { model: Bid }],
-        order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
-      });
+    const queryOptions: any = {
+      include: [{ model: Photo }, { model: Bid }],
+    };
+
+    if (sortBy && sortOrder) queryOptions.order = [[sortBy, sortOrder]];
+
+    if (name) {
+      queryOptions.where = {
+        name: { [Op.like]: `%${name}%` },
+      };
     }
 
-    const auctions = await this.auctionModel.findAll({
-      include: [{ model: Photo }, { model: Bid }],
-    });
+    const auctions = await this.auctionModel.findAll(queryOptions);
 
     if (sortOrder && sortBy === AuctionSortingParams.BIDS) {
       return this.sortByBids(auctions, sortOrder);
@@ -76,7 +80,7 @@ export class AuctionService {
     return auctions;
   }
 
-  sortByBids(auctions, sortOrder: string) {
+  private sortByBids(auctions, sortOrder: string) {
     return auctions.sort((a, b) => {
       return sortOrder === 'ASC'
         ? a.bids.length + b.bids.length
