@@ -1,11 +1,8 @@
 "use client";
-import { Badge } from "@/components/ui/badge";
 import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { Icons } from "@/components/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import {
   Popover,
@@ -26,40 +23,37 @@ const auctionCategories: TComboboxOption[] = [
 
   {
     label: "By Price",
-    value: "price",
+    value: "currentPrice",
   },
 
   {
     label: "By Popularity",
-    value: "popularity",
+    value: "bids",
   },
 ];
 
 function AuctionCombobox() {
   const [open, setOpen] = React.useState(false);
-  const [selectedCategories, setSelectedCategories] =
-    React.useState<TComboboxOption[]>(auctionCategories);
+  const [value, setValue] = React.useState("name");
 
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const updateSearchParams = (categories: TComboboxOption[]) => {
-    const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
-    let search = "";
 
-    if (categories.length === 0) {
-      current.delete("categories");
+  const updateSearchParams = (category?: string) => {
+    const current = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
+
+    if (!category) {
+      current.delete("category");
     } else {
-      categories.forEach((category, index) => {
-        search += `categories=${category.value}${index !== categories.length - 1 ? "&" : ""}`;
-      });
+      current.set("category", category);
     }
 
+    const search = current.toString();
     const query = search ? `?${search}` : "";
 
     router.push(`${pathname}${query}`);
   };
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -67,20 +61,13 @@ function AuctionCombobox() {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-fit w-[200px] pb-0 pt-4"
+          className="w-[200px] justify-between"
         >
-          <ScrollArea className="absolute flex h-[35px] gap-4">
-            {selectedCategories.map((category) => (
-              <Badge key={category.value}>{category.label}</Badge>
-            ))}
-            {selectedCategories.length === 0 && (
-              <p className="flex items-center gap-2 text-lg">
-                <Icons.ArrowUpDown />
-                Sort auctions
-              </p>
-            )}
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
+          {value
+            ? auctionCategories.find((category) => category.value === value)
+                ?.label
+            : "Select framework..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -88,36 +75,18 @@ function AuctionCombobox() {
           <CommandGroup>
             {auctionCategories.map((category) => (
               <CommandItem
-                key={category.label}
+                key={category.value}
                 value={category.value}
-                onSelect={(currentValue) => {
-                  setSelectedCategories((current) => {
-                    const isCategorySelected = current.some(({ value }) => {
-                      return value === category.value;
-                    });
-
-                    let newCategories = [];
-                    if (isCategorySelected) {
-                      newCategories = current.filter(
-                        ({ value }) => value !== category.value,
-                      );
-                    } else {
-                      newCategories = [...current, category];
-                    }
-                    updateSearchParams(newCategories);
-                    return newCategories;
-                  });
+                onSelect={(_) => {
+                  setValue(category.value === value ? "" : category.value);
                   setOpen(false);
+                  updateSearchParams(category.value);
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    selectedCategories.some(
-                      ({ value }) => category.value === value,
-                    )
-                      ? "opacity-100"
-                      : "opacity-0",
+                    value === category.value ? "opacity-100" : "opacity-0",
                   )}
                 />
                 {category.label}
@@ -129,5 +98,4 @@ function AuctionCombobox() {
     </Popover>
   );
 }
-
 export { AuctionCombobox };
