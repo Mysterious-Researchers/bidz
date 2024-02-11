@@ -1,6 +1,8 @@
 "use client";
+import { type TAuctionInput } from "@/lib/schemas";
 import * as React from "react";
 import { Icons } from "@/components/icons";
+import PhotoApi from "@/lib/api/photo";
 const BlankPhoto = () => {
   return (
     <div className="bg flex h-[130px] w-[200px] items-center justify-center rounded-xl bg-gray-50">
@@ -10,33 +12,29 @@ const BlankPhoto = () => {
 };
 
 interface PhotoInputFieldProps {
-  photos: string[];
-  onPhotoAdd: (url: string) => void;
+  photos: TAuctionInput["photos"];
+  onPhotoAdd: (obj: TAuctionInput["photos"][0]) => void;
   onPhotoDelete: (url: string) => void;
 }
 
 interface PhotoInputProps
   extends Omit<PhotoInputFieldProps, "photos" | "onPhotoDelete"> {
-  key?: string;
+  index: number;
 }
-const PhotoInput = ({ key, onPhotoAdd }: PhotoInputProps) => {
-  const handleFileSelected = (event: React.ChangeEvent<HTMLInputElement>) => {
+const PhotoInput = ({ onPhotoAdd, index }: PhotoInputProps) => {
+  const handleFileSelected = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     if (!event.target.files) return;
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    const file = event.target.files[0]!;
+    const form = new FormData();
+    form.append("photos", file, file.name);
 
-    reader.onload = (e) => {
-      if (!e.target) return;
-      const arrayBuffer = e.target.result as ArrayBuffer;
-      const blob = new Blob([arrayBuffer]);
+    const {
+      data: { link },
+    } = await PhotoApi.createPhoto(form, index);
 
-      const url = "";
-      //TODO: add photo upload to the cdn and get the url
-
-      onPhotoAdd(url);
-    };
-
-    reader.readAsArrayBuffer(file!);
+    onPhotoAdd({ link, index });
   };
 
   return (
@@ -106,10 +104,12 @@ const PhotoInputField = ({
 
   return (
     <div className="flex flex-wrap gap-4">
-      {photos.map((url) => (
-        <FilledPhoto key={url} url={url} onPhotoDelete={onPhotoDelete} />
+      {photos.map(({ link }, index) => (
+        <FilledPhoto key={link} url={link} onPhotoDelete={onPhotoDelete} />
       ))}
-      {filledPhotosLength < 8 && <PhotoInput onPhotoAdd={onPhotoAdd} />}
+      {filledPhotosLength < 8 && (
+        <PhotoInput onPhotoAdd={onPhotoAdd} index={filledPhotosLength + 1} />
+      )}
       {blankPhotos.map((i) => (
         <BlankPhoto key={i} />
       ))}

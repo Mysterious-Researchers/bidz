@@ -46,7 +46,9 @@ export const OpenMobileHeaderButtonAndMobileHeader = ({}) => {
           </ul>
 
           <SheetClose>
-            <Button>Join our community</Button>
+            <Link href={"/login"}>
+              <Button>Join our community</Button>
+            </Link>
           </SheetClose>
         </nav>
       </SheetContent>

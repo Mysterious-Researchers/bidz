@@ -1,6 +1,9 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+
+import AuthApi from "@/lib/api/auth";
+
 function SuccessAlert() {
   return (
     <Alert className="flex flex-col gap-4">
