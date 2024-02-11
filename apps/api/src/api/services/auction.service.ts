@@ -5,6 +5,7 @@ import { Bid } from '../../database/entities/bid.entity';
 import { Auction } from '../../database/entities/auction.entity';
 import { CreateAuctionDto } from '../dto/create-auction.dto';
 import { Photo } from '../../database/entities/photo.entity';
+import { AuctionSortingDto } from '../dto/auction-sorting.dto';
 
 
 @Injectable()
@@ -51,13 +52,16 @@ export class AuctionService {
     });
   }
 
-  async getAllAuctions() {
+  async getAllAuctions(sortOptions?: AuctionSortingDto): Promise<Auction[]> {
+    const { sortBy, sortOrder } = sortOptions || {};
+
     return this.auctionModel.findAll({
       include: [
         {
           model: Photo,
         },
       ],
+      order: sortBy && sortOrder ? [[sortBy, sortOrder]] : undefined,
     });
   }
 
