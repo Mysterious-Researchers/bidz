@@ -22,10 +22,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
     if (!user) throw new EntityNotFoundException('User');
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.dataValues.password);
     if (!isMatch) throw new UnauthorizedException('Password is wrong');
 
-    delete user.password;
-    return user;
+    delete user.dataValues.password;
+
+    return user.dataValues;
   }
 }

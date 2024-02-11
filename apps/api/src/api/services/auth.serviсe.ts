@@ -9,21 +9,24 @@ import { HOUR } from '../../utils/constants';
 import { TokenExpiredException } from '../../utils/exceptions/token.expired.exception';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { Auction } from '../../database/entities/auction.entity';
+import { UserResponse } from '../responses/user.response';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject('USERS_REPOSITORY')
     private userModel: typeof User,
+
     @Inject('MAIL_TOKEN_REPOSITORY')
     private mailModel: typeof MailTokenEntity,
+
+    @Inject('AUCTIONS_REPOSITORY')
+    private auctionModel: typeof Auction,
+
     private emailService: EmailService,
     private jwtService: JwtService,
   ) {}
-
-  async findAll() {
-    return this.userModel.findAll();
-  }
 
   async create(body: AuthDto) {
     const user = await this.userModel.findOne({
@@ -45,7 +48,7 @@ export class AuthService {
     });
 
     const { id } = await this.mailModel.create({
-      userId: userModel.id,
+      userId: userModel.dataValues.id,
     });
 
     await this.emailService.sendEmail({
@@ -66,28 +69,33 @@ export class AuthService {
       throw new InvalidVerificationTokenException();
     }
 
-    if (Date.now() - verifyToken.createdAt.getTime() > HOUR) {
+    if (Date.now() - verifyToken.dataValues.createdAt.getTime() > HOUR) {
       throw new TokenExpiredException();
     }
 
-    const user = await this.userModel.update(
+    const userId = verifyToken.dataValues.userId;
+
+    await this.userModel.update(
       { status: 'APPROVED' },
       {
         where: {
-          id: verifyToken.userId,
+          id: userId,
         },
       },
     );
 
     await this.mailModel.destroy({
       where: {
-        id: verifyToken.id,
+        id: verifyToken.dataValues.id,
       },
     });
-    return this.getTokens(user);
+
+    const user = await this.userModel.findOne({ where: { id: userId } });
+
+    return this.getTokens(user.dataValues);
   }
 
-  async getTokens(user) {
+  async getTokens(user: User) {
     const payload = {
       sub: user.id,
       email: user.email,
@@ -109,20 +117,24 @@ export class AuthService {
     };
   }
 
-  async login(user) {
+  async login(user: User) {
     if (user.status !== 'APPROVED') {
       throw new UnauthorizedException('Email not yer verified');
     }
     return this.getTokens(user);
   }
 
-  async getUser(user) {
-    return this.userModel.findOne({
+  async getUser(user: User): Promise<UserResponse> {
+    const auctions = await this.auctionModel.findAll({
       where: {
-        id: user.id,
+        userId: user.id,
       },
-      attributes: { exclude: ['password'] },
     });
+
+    return {
+      ...user,
+      auctions: auctions.map(({ dataValues }) => dataValues.id),
+    };
   }
 
   async hashPassword(password: string): Promise<string> {
