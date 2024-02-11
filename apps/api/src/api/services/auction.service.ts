@@ -70,7 +70,14 @@ export class AuctionService {
       stepPrice: auctionData.stepPrice,
     });
 
-    await this.addPhotos(dataValues.id, auctionData.photos);
+    await Promise.all(
+      auctionData.photos.map(async (link) => {
+        await this.photoModel.update(
+          { auctionId: dataValues.id },
+          { where: { link } },
+        );
+      }),
+    );
 
     return {
       id: dataValues.id,
@@ -79,29 +86,35 @@ export class AuctionService {
     };
   }
 
-  async updateAuction(auctionId: string, data: Partial<CreateAuctionDto>) {
-    const auction = await this.auctionModel.findByPk(auctionId);
+  async updateAuction(
+    auctionId: string,
+    updatedAuctionData: Partial<CreateAuctionDto>,
+  ): Promise<Auction> {
+    const auction = await this.auctionModel.findByPk(auctionId, {
+      include: [this.photoModel],
+    });
 
     if (!auction) {
       throw new NotFoundException(`Auction with ID ${auctionId} not found`);
     }
 
-    await auction.update(data);
+    await auction.update(updatedAuctionData);
 
-    if (data.photos) await this.addPhotos(auctionId, data.photos);
-    const photos = await this.photoModel.findAll({ where: { auctionId } });
+    await auction.$set('photos', []);
+
+    if (updatedAuctionData.photos && updatedAuctionData.photos.length > 0) {
+      const updatedPhotos = await this.photoModel.findAll({
+        where: { link: updatedAuctionData.photos.map((photo) => photo.link) },
+      });
+
+      await auction.$add('photos', updatedPhotos);
+    }
+
+    const updatedPhotos = await auction.$get('photos');
 
     return {
       ...auction.dataValues,
-      photos: photos.map(({ dataValues }) => dataValues.link),
-    };
-  }
-
-  private async addPhotos(auctionId: string, photos: string[]) {
-    await Promise.all(
-      photos.map(async (link) => {
-        await this.photoModel.update({ auctionId }, { where: { link } });
-      }),
-    );
+      photos: updatedPhotos,
+    } as Auction;
   }
 }
