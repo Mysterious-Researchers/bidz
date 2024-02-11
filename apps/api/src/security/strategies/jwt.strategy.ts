@@ -28,8 +28,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     if (user.status !== 'APPROVED') throw new ForbiddenException();
 
-    delete user.password;
+    delete user.dataValues.password;
 
-    return user;
+    return user.dataValues;
   }
 }

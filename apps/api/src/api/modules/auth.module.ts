@@ -9,6 +9,7 @@ import { LocalStrategy } from '../../security/strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from '../../security/strategies/jwt.strategy';
 import * as process from 'process';
+import { auctionProviders } from '../../database/providers/auction.provider';
 
 @Module({
   exports: [AuthService],
@@ -16,6 +17,7 @@ import * as process from 'process';
     AuthService,
     ...userProviders,
     ...mailTokenProvider,
+    ...auctionProviders,
     LocalStrategy,
     JwtStrategy,
   ],
