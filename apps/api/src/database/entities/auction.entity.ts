@@ -22,58 +22,58 @@ export class Auction extends Model {
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
-  id: string;
+    id: string;
 
   @Column({
     allowNull: false,
   })
-  name: string;
+    name: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
   })
-  userId: string;
+    userId: string;
 
   @BelongsTo(() => User)
-  user: User;
+    user: User;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
   })
-  startPrice: number;
+    startPrice: number;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
   })
-  stepPrice: number;
+    stepPrice: number;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
     defaultValue: 0,
   })
-  currentPrice: number;
+    currentPrice: number;
 
   @Column({
     type: DataType.DATE,
     allowNull: false,
   })
-  endDate: string;
+    endDate: string;
 
   @Column({
     allowNull: false,
   })
-  description: string;
+    description: string;
 
   @HasMany(() => Bid)
-  bids: Bid[];
+    bids: Bid[];
 
   @HasMany(() => Photo)
-  photos: Photo[];
+    photos: Photo[];
 
   @HasMany(() => Message)
-  messages: Message[];
+    messages: Message[];
 }

@@ -19,29 +19,29 @@ export class Bid extends Model {
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
-  id: string;
+    id: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
   })
-  userId: string;
+    userId: string;
 
   @BelongsTo(() => User)
-  user: User;
+    user: User;
 
   @ForeignKey(() => Auction)
   @Column({
     type: DataType.UUID,
   })
-  auctionId: string;
+    auctionId: string;
 
   @BelongsTo(() => Auction)
-  auction: Auction;
+    auction: Auction;
 
   @Column({
     type: DataType.FLOAT,
     allowNull: false,
   })
-  value: number;
+    value: number;
 }
