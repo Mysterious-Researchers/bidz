@@ -19,26 +19,26 @@ export class Message extends Model {
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
-  id: string;
+    id: string;
 
   @ForeignKey(() => Auction)
   @Column({
     type: DataType.UUID,
   })
-  auctionId: string;
+    auctionId: string;
 
   @BelongsTo(() => Auction)
-  auction: Auction;
+    auction: Auction;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
   })
-  userId: string;
+    userId: string;
 
   @BelongsTo(() => User)
-  user: User;
+    user: User;
 
   @Column
-  text: string;
+    text: string;
 }

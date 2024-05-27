@@ -1,6 +1,6 @@
-import { AuthController } from "../apps/api/src/api/controllers/auth.controller";
-import { AuctionController } from "../apps/api/src/api/controllers/auction.controller";
-import { PhotoController } from "../apps/api/src/api/controllers/photo.controller";
+import { AuthController } from "../apps/api/src/api/auth/auth.controller";
+import { AuctionController } from "../apps/api/src/api/auction/auction.controller";
+import { PhotoController } from "../apps/api/src/api/photo/photo.controller";
 
 import { ExtractClassMethodReturnTypes } from "./util-types";
 

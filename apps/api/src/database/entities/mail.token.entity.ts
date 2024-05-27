@@ -17,11 +17,11 @@ export class MailTokenEntity extends Model {
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
-  id: string;
+    id: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
   })
-  userId: string;
+    userId: string;
 }

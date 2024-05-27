@@ -6,14 +6,14 @@ import { EntityNotFoundException } from '../../utils/exceptions/entity.not.found
 import * as bcrypt from 'bcrypt';
 
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(
+  constructor (
     @Inject('USERS_REPOSITORY')
     private userModel: typeof User,
   ) {
     super({ usernameField: 'email' });
   }
 
-  async validate(email: string, password: string) {
+  async validate (email: string, password: string) {
     const user = await this.userModel.findOne({
       where: {
         email,

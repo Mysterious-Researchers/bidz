@@ -23,48 +23,48 @@ export class User extends Model {
     type: DataType.UUID,
     defaultValue: DataType.UUIDV4,
   })
-  id: string;
+    id: string;
 
   @Column({
     allowNull: false,
   })
-  firstName: string;
+    firstName: string;
 
   @Column
-  middleName: string;
+    middleName: string;
 
   @Column({
     allowNull: false,
   })
-  lastName: string;
+    lastName: string;
 
   @Column({
     unique: true,
     allowNull: false,
   })
-  email: string;
+    email: string;
 
   @Column({
     allowNull: false,
   })
-  password: string;
+    password: string;
 
   @Column({
     type: DataType.ENUM({ values: Statuses }),
     defaultValue: Statuses[1],
     allowNull: false,
   })
-  status: string;
+    status: string;
 
   @HasMany(() => Bid)
-  bids: Bid[];
+    bids: Bid[];
 
   @HasMany(() => Message)
-  messages: Message[];
+    messages: Message[];
 
   @HasMany(() => Auction)
-  auctions: Auction[];
+    auctions: Auction[];
 
   @HasOne(() => MailTokenEntity)
-  mailToken: MailTokenEntity;
+    mailToken: MailTokenEntity;
 }

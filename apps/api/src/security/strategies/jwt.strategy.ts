@@ -8,7 +8,7 @@ import {
 import { User } from '../../database/entities/user.entity';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
+  constructor (
     @Inject('USERS_REPOSITORY')
     private userModel: typeof User,
   ) {
@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload) {
+  async validate (payload) {
     const user = await this.userModel.findOne({
       where: { id: payload.sub },
     });

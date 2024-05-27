@@ -17,19 +17,19 @@ export class Photo extends Model {
   @Column({
     unique: true,
   })
-  link: string;
+    link: string;
 
   @Column({
     allowNull: false,
   })
-  index: number;
+    index: number;
 
   @ForeignKey(() => Auction)
   @Column({
     type: DataType.UUID,
   })
-  auctionId: string;
+    auctionId: string;
 
   @BelongsTo(() => Auction)
-  auction: Auction;
+    auction: Auction;
 }

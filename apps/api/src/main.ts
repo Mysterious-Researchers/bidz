@@ -6,7 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 const port = process.env.PORT ?? 3000;
 
-async function bootstrap() {
+async function bootstrap () {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.enableCors();
   app.useStaticAssets(
