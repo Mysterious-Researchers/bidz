@@ -5,6 +5,7 @@ import { Auction } from '../../database/entities/auction.entity';
 export class AuctionMapper {
   getAuction (auction: Auction) {
     return {
+      id: auction.dataValues.id,
       name: auction.dataValues.name,
       photos: auction.dataValues.photos.map(
         ({ dataValues: { index, link } }) => ({
