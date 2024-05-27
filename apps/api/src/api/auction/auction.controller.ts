@@ -13,32 +13,44 @@ import { BidMapper } from '../bid/bid.mapper';
 import { AuctionMapper } from './auction.mapper';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { AuctionSortingDto } from './dto/auction-sorting.dto';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuctionResponse } from './responses/auction.response';
+import { AuctionsResponse } from './responses/auctions.resposne';
+import { BidsResponse } from '../bid/responses/bids.resposne';
 
+@ApiTags('Auction')
 @Controller('auctions')
 export class AuctionController {
   constructor (
-    private auctionService: AuctionService,
-    private auctionMapper: AuctionMapper,
-    private messageMapper: MessageMapper,
-    private bidMapper: BidMapper,
+    private readonly auctionService: AuctionService,
+    private readonly auctionMapper: AuctionMapper,
+    private readonly messageMapper: MessageMapper,
+    private readonly bidMapper: BidMapper,
   ) {}
 
   @Get('/:auctionId')
-  async get (@Param('auctionId') auctionId: string) {
+  @ApiOperation({ summary: 'Get auction by id' })
+  @ApiOkResponse({ type: AuctionResponse })
+  async get (
+    @Param('auctionId') auctionId: string
+  ) {
     const dbAuction = await this.auctionService.get(auctionId);
     return this.auctionMapper.getAuction(dbAuction);
   }
 
   @Get()
+  @ApiOperation({ summary: 'Get all auctions' })
+  @ApiOkResponse({ type: AuctionsResponse })
   async getAllAuctions (
     @Query() sortOptions?: AuctionSortingDto,
     @Query('name') name?: string,
   ) {
     const auctions = await this.auctionService.getAllAuctions(sortOptions, name);
-    return this.auctionMapper.getAuctions(auctions);
+    return { auctions: this.auctionMapper.getAuctions(auctions) };
   }
 
   @Get('/:auctionId/messages')
+  @ApiOperation({ summary: 'Get all messages for auction' })
   async getMessages (
     @Param('auctionId') auctionId: string,
   ) {
@@ -48,6 +60,8 @@ export class AuctionController {
   }
 
   @Get('/:auctionId/bids')
+  @ApiOperation({ summary: 'Get all bids for auction' })
+  @ApiOkResponse({ type: BidsResponse })
   async getBids (
     @Param('auctionId') auctionId: string,
   ) {
@@ -57,6 +71,8 @@ export class AuctionController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create auction' })
+  @ApiOkResponse({ type: AuctionResponse })
   async createAuction (
     @Body() body: CreateAuctionDto,
   ) {

@@ -1,4 +1,9 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreatePhotoDto {
-  index: number;
-  auctionId: string;
+  @ApiProperty({ description: 'Photo index' })
+    index: number;
+
+  @ApiProperty({ description: 'Auction id' })
+    auctionId: string;
 }

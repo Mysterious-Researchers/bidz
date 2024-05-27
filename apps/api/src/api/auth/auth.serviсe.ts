@@ -1,6 +1,6 @@
 import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { User } from '../../database/entities/user.entity';
-import { AuthDto } from './dto/auth.dto';
+import { RegistrationDto } from './dto/registration.dto';
 import { AlreadyRegisteredException } from '../../utils/exceptions/already.registered.exception';
 import { MailTokenEntity } from '../../database/entities/mail.token.entity';
 import { EmailService } from '../email/email.service';
@@ -28,7 +28,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async create (body: AuthDto) {
+  async create (body: RegistrationDto) {
     const user = await this.userModel.findOne({
       where: {
         email: body.email,
@@ -112,7 +112,7 @@ export class AuthService {
     return {
       accessToken: this.jwtService.sign(payload),
       refreshToken: this.jwtService.sign(refreshTokenPayload, {
-        expiresIn: '1d',
+        expiresIn: '30d',
       }),
     };
   }
