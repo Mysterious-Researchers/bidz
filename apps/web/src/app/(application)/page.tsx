@@ -21,7 +21,7 @@ export default async function HomePage({
   return (
     <main className="flex min-h-[calc(100vh-480px)] flex-1 flex-col px-[80px] py-[80px]">
       <SearchComponent defaultSearchValue={search} />
-      <AuctionList auctions={response.data} />
+      <AuctionList auctions={response.data.auctions} />
     </main>
   );
 }

@@ -45,31 +45,33 @@ const AuctionCard = ({ auction }: ProjectCardProps) => {
 
   return (
     <Card className="p-[20px]">
-      <Carousel setApi={setApi} className="relative overflow-hidden rounded-xl">
-        <CarouselContent>
-          {auction.photos.map(({ link, index }) => (
-            <CarouselItem key={link}>
-              <img
-                src={link}
-                alt={auction.name}
-                className="aspect-[2/1.3] object-cover"
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
+      {auction.photos && (
+        <Carousel setApi={setApi} className="relative overflow-hidden rounded-xl">
+          <CarouselContent>
+            {auction.photos.map(({ link, index }) => (
+              <CarouselItem key={link}>
+                <img
+                  src={link}
+                  alt={auction.name}
+                  className="aspect-[2/1.3] object-cover"
+                />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-        <div className="flex h-[20px] items-center justify-center gap-1 bg-sky-950">
-          {auction.photos.map(({ link, index }, i) => (
-            <div
-              className={`h-[8px] w-[8px] cursor-pointer rounded ${i === current - 1 ? "bg-white" : "bg-[#667E8F]"}`}
-              key={link}
-              onClick={() => handleCircleSelected(i)}
-            ></div>
-          ))}
-        </div>
-        <CarouselPrevious className="absolute left-[12px]" />
-        <CarouselNext className="absolute right-[12px]" />
-      </Carousel>
+          <div className="flex h-[20px] items-center justify-center gap-1 bg-sky-950">
+            {auction.photos.map(({ link, index }, i) => (
+              <div
+                className={`h-[8px] w-[8px] cursor-pointer rounded ${i === current - 1 ? "bg-white" : "bg-[#667E8F]"}`}
+                key={link}
+                onClick={() => handleCircleSelected(i)}
+              ></div>
+            ))}
+          </div>
+          <CarouselPrevious className="absolute left-[12px]" />
+          <CarouselNext className="absolute right-[12px]" />
+        </Carousel>
+      )}
       <div className="mt-8 flex flex-col gap-4">
         <CardTitle className="text-3xl">{auction.name}</CardTitle>
         <CardDescription>{auction.description}</CardDescription>

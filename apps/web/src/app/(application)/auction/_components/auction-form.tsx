@@ -15,7 +15,6 @@ const initialAuctionValues: TAuctionInput = {
   startPrice: 0,
   stepPrice: 1,
   description: "",
-  photos: [],
 };
 
 interface AuctionFormProps {
@@ -43,8 +42,7 @@ const AuctionForm = ({
   const [date, setDate] = React.useState<Date | undefined>(
     defaultValues?.endDate,
   );
-
-  const watchPhotos = watch("photos");
+  console.log(getValues())
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -110,24 +108,24 @@ const AuctionForm = ({
           <h2 className="text-2xl font-bold">Photos</h2>
         </div>
 
-        <InputWrapper
-          label={"The first photo is going to be tha main photo"}
-          error={errors.photos?.message}
-        >
-          <PhotoInputField
-            photos={watchPhotos}
-            onPhotoDelete={(photoToDeleteUrl) => {
-              const allPhotos = getValues("photos");
-              setValue(
-                "photos",
-                allPhotos.filter(({ link }) => link !== photoToDeleteUrl),
-              );
-            }}
-            onPhotoAdd={(photoObj) => {
-              setValue("photos", [...getValues("photos"), photoObj]);
-            }}
-          />
-        </InputWrapper>
+        {/*<InputWrapper*/}
+        {/*  label={"The first photo is going to be tha main photo"}*/}
+        {/*  error={errors.photos?.message}*/}
+        {/*>*/}
+        {/*  <PhotoInputField*/}
+        {/*    photos={watchPhotos}*/}
+        {/*    onPhotoDelete={(photoToDeleteUrl) => {*/}
+        {/*      const allPhotos = getValues("photos");*/}
+        {/*      setValue(*/}
+        {/*        "photos",*/}
+        {/*        allPhotos.filter(({ link }) => link !== photoToDeleteUrl),*/}
+        {/*      );*/}
+        {/*    }}*/}
+        {/*    onPhotoAdd={(photoObj) => {*/}
+        {/*      setValue("photos", [...getValues("photos"), photoObj]);*/}
+        {/*    }}*/}
+        {/*  />*/}
+        {/*</InputWrapper>*/}
         <Button type="submit" className="self-start">
           {actionName}
         </Button>
