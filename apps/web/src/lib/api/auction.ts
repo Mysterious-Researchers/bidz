@@ -1,10 +1,9 @@
-import { client, delay } from "@/lib/api/client";
+import { client } from "@/lib/api/client";
 import { type TAuctionInput } from "@/lib/schemas";
 
 import { type TAuctionEndpoints } from "../../../../../libs/types";
-import { type Prettify } from "../../../../../libs/util-types";
 
-export type TAuctionsListItem = TAuctionEndpoints["getAllAuctions"][0];
+export type TAuctionsListItem = TAuctionEndpoints["getAllAuctions"]['auctions'][0];
 export const possibleCategories = ["bids", "currentPrice", "name"] as const;
 
 export type TCategory = (typeof possibleCategories)[number];
@@ -20,19 +19,22 @@ class AuctionApi {
   }
 
   async getAuctionMessages(auctionId: string) {
-    return await client.get<TAuctionEndpoints["getMessages"]>(
+    const { data } = await client.get<TAuctionEndpoints["getMessages"]>(
       `actions/${auctionId}/messages`,
     );
+    return data;
   }
 
   async getBids(auctionId: string) {
     return await client.get<TAuctionEndpoints["getBids"]>(
-      `actions/${auctionId}/bids`,
+      `auctions/${auctionId}/bids`,
     );
   }
 
   async getAuctionById(id: string) {
-    return await client.get<TAuctionEndpoints["get"]>(id);
+    return await client.get<TAuctionEndpoints["get"]>(
+      `auctions/${id}`
+      );
   }
 
   async create(body: TAuctionInput) {

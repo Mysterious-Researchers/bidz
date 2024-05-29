@@ -1,16 +1,27 @@
+"use client";
 import AuctionApi from "@/lib/api/auction";
-export default async function SingleAuctionPage({
+import {useEffect, useState} from "react";
+import {AuctionCard} from "@/app/(application)/_components/auction-card";
+export default function SingleAuctionPage({
   params: { auctionId },
 }: {
   params: { auctionId: string };
-}) {
-  //TODO: add api
-  const auction = await AuctionApi.getAuctionById(auctionId);
-
+}) {const [auction, setAuction] = useState();
+  console.log(auctionId);
+  useEffect(() => {
+    const getAuction = async () => {
+      const response = await AuctionApi.getAuctionById(auctionId);
+      console.log(response)
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      setAuction(response.data);
+    }
+    getAuction();
+  }, []);
+  if (!auction) return <div>Loading...</div>
   return (
     <div>
-      {JSON.stringify(auction)}
-      <h1>SingleAuctionPage</h1>
+      <AuctionCard auction={auction}/>
     </div>
   );
 }
