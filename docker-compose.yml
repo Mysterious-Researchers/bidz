@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  nest:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=production
+
+  next:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
