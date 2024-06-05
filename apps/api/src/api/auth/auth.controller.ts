@@ -20,7 +20,7 @@ import { LoginDto } from './dto/login.dto';
 @Controller('auth')
 export class AuthController {
   constructor (
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   @Post('/register')

@@ -15,7 +15,7 @@ import { PhotoResponse } from '../auction/responses/auctions.resposne';
 @Controller('/photos')
 export class PhotoController {
   constructor (
-    private readonly photoService: PhotoService
+    private readonly photoService: PhotoService,
   ) {}
 
   @Post('/:index')
