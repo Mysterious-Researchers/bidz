@@ -6,18 +6,14 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   type CarouselApi,
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
 } from "@/components/ui/carousel";
 
 import { Card, CardTitle, CardDescription } from "@/components/ui/card";
 interface ProjectCardProps {
   auction: TAuctionsListItem;
+  link: string;
 }
-const AuctionCard = ({ auction }: ProjectCardProps) => {
+const AuctionCard = ({ auction, link}: ProjectCardProps) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -45,33 +41,6 @@ const AuctionCard = ({ auction }: ProjectCardProps) => {
 
   return (
     <Card className="p-[20px]">
-      {auction.photos && (
-        <Carousel setApi={setApi} className="relative overflow-hidden rounded-xl">
-          <CarouselContent>
-            {auction.photos.map(({ link, index }) => (
-              <CarouselItem key={link}>
-                <img
-                  src={link}
-                  alt={auction.name}
-                  className="aspect-[2/1.3] object-cover"
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-
-          <div className="flex h-[20px] items-center justify-center gap-1 bg-sky-950">
-            {auction.photos.map(({ link, index }, i) => (
-              <div
-                className={`h-[8px] w-[8px] cursor-pointer rounded ${i === current - 1 ? "bg-white" : "bg-[#667E8F]"}`}
-                key={link}
-                onClick={() => handleCircleSelected(i)}
-              ></div>
-            ))}
-          </div>
-          <CarouselPrevious className="absolute left-[12px]" />
-          <CarouselNext className="absolute right-[12px]" />
-        </Carousel>
-      )}
       <div className="mt-8 flex flex-col gap-4">
         <CardTitle className="text-3xl">{auction.name}</CardTitle>
         <CardDescription>{auction.description}</CardDescription>
@@ -85,7 +54,7 @@ const AuctionCard = ({ auction }: ProjectCardProps) => {
           <span>12</span>
         </div>
 
-        <Link href={`auction/${auction.id}`}>
+        <Link href={link}>
           <Button>Join bidding session</Button>
         </Link>
       </div>
