@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Bitz",
+  title: "Bidz",
   description: "A simple bidding application",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
