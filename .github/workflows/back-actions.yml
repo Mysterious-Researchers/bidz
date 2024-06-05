@@ -1,0 +1,33 @@
+name: Backend Actions
+on:
+  push:
+    paths:
+      - 'apps/api/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Node and dependencies
+        uses: ./.github/actions/install
+      - name: Run build
+        run: pnpm dlx nx build api
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Node and dependencies
+        uses: ./.github/actions/install
+      - name: Run lint
+        run: pnpm dlx nx lint api
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Node and dependencies
+        uses: ./.github/actions/install
+      - name: Run integration tests
+        run: pnpm dlx nx test:integration api
