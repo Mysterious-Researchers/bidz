@@ -60,3 +60,9 @@ SECRET
 ACCESS_TTL
 FRONT_BASE_URL
 ```
+
+## Run Integration Tests
+
+```bash
+nx test:integration api
+```   
