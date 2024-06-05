@@ -7,11 +7,9 @@ export default function SingleAuctionPage({
 }: {
   params: { auctionId: string };
 }) {const [auction, setAuction] = useState();
-  console.log(auctionId);
   useEffect(() => {
     const getAuction = async () => {
       const response = await AuctionApi.getAuctionById(auctionId);
-      console.log(response)
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       setAuction(response.data);
@@ -21,7 +19,7 @@ export default function SingleAuctionPage({
   if (!auction) return <div>Loading...</div>
   return (
     <div>
-      <AuctionCard auction={auction}/>
+      <AuctionCard auction={auction} link={`${auctionId}/bidding`}/>
     </div>
   );
 }
